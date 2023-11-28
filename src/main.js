@@ -22,4 +22,8 @@ let config = {
 let game = new Phaser.Game(config);
 
 // reserve keyboard vars
-let keySPACE
+let keySPACE, keyW, keyA, keyS, keyD
+
+// keeps track of player position
+let playerPosX = 500;
+let playerPosY = 2500;
