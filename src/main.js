@@ -11,8 +11,8 @@ let config = {
             debug: false
         }
     },
-    width: 1280,
-    height: 720,
+    width: 960,
+    height: 544,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
@@ -20,3 +20,6 @@ let config = {
 }
 
 let game = new Phaser.Game(config);
+
+// reserve keyboard vars
+let keySPACE
