@@ -8,6 +8,7 @@ class Load extends Phaser.Scene {
         this.load.image('map', 'map.png')
         this.load.image('player', 'player.png')
         this.load.image('overlay', 'map_overlay.png')
+        this.load.image('frame', 'camera_frame.png')
     }
 
     create() {

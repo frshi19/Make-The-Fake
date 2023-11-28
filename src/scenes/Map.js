@@ -15,20 +15,22 @@ class Map extends Phaser.Scene {
         this.player = this.physics.add.image(playerPosX, playerPosY, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
 
+        // create object markers
+        this.frame = this.add.image(this.player.x, this.player.y, 'frame')
+
         // set up main camera
         this.cameras.main.setBounds(0, 0, 3000, 3000).setZoom(1)
         this.cameras.main.startFollow(this.player, false, 0.4, 0.4)
-        //this.cameras.main.ignore([this.cross])
+        this.cameras.main.ignore([this.frame])
 
         // create overlay
         this.overlay = this.add.image(0,0,'overlay').setOrigin(0)
         this.overlay.setScrollFactor(0)
 
         // set up mini map
-        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 3000, 3000).setZoom(0.1)
-        this.miniMapCamera.setBackgroundColor(0x000)
+        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 3000, 3000).setZoom(0.059)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
-        this.miniMapCamera.ignore([this.player, this.bg, this.overlay])
+        this.miniMapCamera.ignore([ this.bg, this.overlay])
 
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(0, 0, 3000, 3000)
@@ -57,5 +59,6 @@ class Map extends Phaser.Scene {
         }
         this.playerDirection.normalize()
         this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
+        this.frame.setPosition(this.player.x, this.player.y)
     }
 }
