@@ -8,7 +8,10 @@ class Map extends Phaser.Scene {
     }
 
     create() {
-        this.bg = this.add.image(0,0,'map').setOrigin(0)
+        const map = this.add.tilemap('tilemapJSON')
+        const tileset = map.addTilesetImage('tileset', 'tilesetImage')
+
+        const bgLayer = map.createLayer('Background', tileset, 0, 0)
 
         // create player object
         this.PLAYER_VEL = 600;
@@ -19,7 +22,7 @@ class Map extends Phaser.Scene {
         this.frame = this.add.image(this.player.x, this.player.y, 'frame')
 
         // set up main camera
-        this.cameras.main.setBounds(0, 0, 3000, 3000).setZoom(1)
+        this.cameras.main.setBounds(0, 0, 2400, 2400).setZoom(1)
         this.cameras.main.startFollow(this.player, false, 0.4, 0.4)
         this.cameras.main.ignore([this.frame])
 
@@ -28,12 +31,12 @@ class Map extends Phaser.Scene {
         this.overlay.setScrollFactor(0)
 
         // set up mini map
-        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 3000, 3000).setZoom(0.059)
+        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 2400, 2400).setZoom(0.073)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
-        this.miniMapCamera.ignore([ this.bg, this.overlay])
+        this.miniMapCamera.ignore([ bgLayer, this.overlay])
 
         // set physics world bounds (so collideWorldBounds works properly)
-        this.physics.world.bounds.setTo(0, 0, 3000, 3000)
+        this.physics.world.bounds.setTo(960/8, 544/4, 2400 - 960/4, 2400 - 544/2)
 
         // set up keyboard input
         keyW = this.input.keyboard.addKey('W')
