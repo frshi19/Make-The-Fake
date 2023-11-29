@@ -16,7 +16,7 @@ class Map extends Phaser.Scene {
         const nodeLayer = map.createLayer('Node Layer', tileset, 0, 0)
 
         // create player object
-        this.PLAYER_VEL = 600;
+        this.PLAYER_VEL = 500;
         const playerSpawn = map.findObject('Spawns', obj => obj.name === "playerSpawn")
         this.player = this.physics.add.image(playerSpawn.x, playerSpawn.y, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
@@ -36,7 +36,7 @@ class Map extends Phaser.Scene {
         // set up mini map
         this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 2400, 2400).setZoom(0.073)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
-        this.miniMapCamera.ignore([ bgLayer, this.overlay])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay])
 
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(960/8, 544/4, 2400 - 960/4, 2400 - 544/2)
@@ -53,7 +53,8 @@ class Map extends Phaser.Scene {
             collides: true
         })
 
-        this.physics.add.overlap(this.player, nodeLayer, (player, node) => {
+        this.physics.add.collider(this.player, nodeLayer, () => {
+            console.log('LOOP')
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 this.scene.start('battleScene')
             }

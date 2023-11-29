@@ -29,4 +29,4 @@ let playerPosX = 500;
 let playerPosY = 2000;
 
 // keeps track of player currency between scenes
-let coins = 0;
+let coins = 500;
