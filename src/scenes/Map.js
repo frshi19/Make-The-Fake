@@ -8,14 +8,17 @@ class Map extends Phaser.Scene {
     }
 
     create() {
+        // tilemap info
         const map = this.add.tilemap('tilemapJSON')
         const tileset = map.addTilesetImage('tileset', 'tilesetImage')
 
         const bgLayer = map.createLayer('Background', tileset, 0, 0)
+        const nodeLayer = map.createLayer('Node Layer', tileset, 0, 0)
 
         // create player object
         this.PLAYER_VEL = 600;
-        this.player = this.physics.add.image(playerPosX, playerPosY, 'player').setOrigin(0.5)
+        const playerSpawn = map.findObject('Spawns', obj => obj.name === "playerSpawn")
+        this.player = this.physics.add.image(playerSpawn.x, playerSpawn.y, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
 
         // create object markers
