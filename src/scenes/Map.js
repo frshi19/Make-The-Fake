@@ -46,6 +46,18 @@ class Map extends Phaser.Scene {
         keyA = this.input.keyboard.addKey('A')
         keyS = this.input.keyboard.addKey('S')
         keyD = this.input.keyboard.addKey('D')
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+
+        // collisions
+        nodeLayer.setCollisionByProperty({
+            collides: true
+        })
+
+        this.physics.add.overlap(this.player, nodeLayer, (player, node) => {
+            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                this.scene.start('battleScene')
+            }
+        })
     }
 
     update() {
