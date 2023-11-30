@@ -31,7 +31,7 @@ class Battle extends Phaser.Scene {
     }
 
     update() {
-         // player movement
+         // player(camera) movement
          this.playerDirection = new Phaser.Math.Vector2(0)
          if(keyA.isDown) {
              this.playerDirection.x = -1

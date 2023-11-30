@@ -27,7 +27,7 @@ class Map extends Phaser.Scene {
         // set up main camera
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(1)
         this.cameras.main.startFollow(this.player, false, 0.4, 0.4)
-        this.cameras.main.ignore([this.frame])
+        
 
         // create overlay
         this.overlay = this.add.image(0,0,'overlay').setOrigin(0)
@@ -61,7 +61,6 @@ class Map extends Phaser.Scene {
         // set up mini map
         this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(0.073)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
-        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources])
 
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(960/8, 544/4, map.widthInPixels - this.game.config.width/4, map.heightInPixels - this.game.config.height/2)
@@ -77,13 +76,26 @@ class Map extends Phaser.Scene {
         nodeLayer.setCollisionByProperty({
             collides: true
         })
+        
+        const objects = map.createFromObjects('Spawns', {
+            type: 'level'
+        })
 
-        this.physics.add.collider(this.player, nodeLayer, () => {
+        objects.forEach(function (object) {
+            object.setTexture('red_dot')
+        })
+        this.physics.world.enable(objects)
+
+        this.physics.add.overlap(this.player, objects, () => {
             console.log('LOOP')
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 this.scene.start('battleScene')
             }
         })
+
+        // camera ignores
+        this.cameras.main.ignore([this.frame, objects])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources])
     }
 
     update() {
