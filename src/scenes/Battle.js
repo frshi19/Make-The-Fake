@@ -6,8 +6,13 @@ class Battle extends Phaser.Scene {
     create() {
         // create invisible player obj
         this.PLAYER_VEL = 500;
-        this.player = this.physics.add.image(760, 272, 'player').setOrigin(0.5)
+        this.player = this.physics.add.image(960, 0, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
+
+        // set up main camera
+        this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
+        this.cameras.main.startFollow(this.player)
+        this.cameras.main.flash(500, 255, 255, 0, true)
 
         // tilemap info
         const map2 = this.add.tilemap('tilemapJSON2')
@@ -17,10 +22,10 @@ class Battle extends Phaser.Scene {
         const Bases = map2.createLayer('Bases', tileset, 0, 0)
         const Sun = map2.createLayer('Sun and Clouds', tileset, 0, 0)
 
-        // set up main camera
-        this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
-        this.cameras.main.startFollow(this.player)
-        
+        // create overlay
+        this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
+
+        // keyboard input
         keyA = this.input.keyboard.addKey('A')
         keyD = this.input.keyboard.addKey('D')
 

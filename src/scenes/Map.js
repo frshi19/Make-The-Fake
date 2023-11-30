@@ -27,7 +27,6 @@ class Map extends Phaser.Scene {
         // set up main camera
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(1)
         this.cameras.main.startFollow(this.player, false, 0.4, 0.4)
-        
 
         // create overlay
         this.overlay = this.add.image(0,0,'overlay').setOrigin(0)
@@ -72,11 +71,7 @@ class Map extends Phaser.Scene {
         keyD = this.input.keyboard.addKey('D')
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
-        // collisions
-        nodeLayer.setCollisionByProperty({
-            collides: true
-        })
-        
+        // collisions        
         const objects = map.createFromObjects('Spawns', {
             type: 'level'
         })
@@ -86,10 +81,18 @@ class Map extends Phaser.Scene {
         })
         this.physics.world.enable(objects)
 
-        this.physics.add.overlap(this.player, objects, () => {
+        this.physics.add.overlap(this.player, objects, (player, object) => {
             console.log('LOOP')
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                this.scene.start('battleScene')
+                console.log(object.name)
+                if (object.name == 1) {
+                    console.log("starting battle with settings 1")
+                    this.scene.start('battleScene')
+                }
+                else if (object.name == 2) {
+                    console.log("starting battle with settings 2")
+                    this.scene.start('battleScene')
+                }
             }
         })
 
