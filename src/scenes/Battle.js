@@ -25,6 +25,31 @@ class Battle extends Phaser.Scene {
         // create overlay
         this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
 
+        // set up coin counter
+        let coinConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '48px',
+            backgroundColor: '#000000',
+            color: '#3fAAA1',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+        if (coins < 10) {
+            this.resources = this.add.text(672, 48, '000' + coins, coinConfig).setScrollFactor(0)
+        }
+        else if (coins < 100) {
+            this.resources = this.add.text(672, 48, '00' + coins, coinConfig).setScrollFactor(0)
+        }else if (coins < 1000) {
+            this.resources = this.add.text(672, 48, '0' + coins, coinConfig).setScrollFactor(0)
+        }else{
+            this.resources = this.add.text(672, 48, coins, coinConfig).setScrollFactor(0)
+        }
+
         // keyboard input
         keyA = this.input.keyboard.addKey('A')
         keyD = this.input.keyboard.addKey('D')

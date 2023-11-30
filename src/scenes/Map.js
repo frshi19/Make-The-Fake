@@ -17,8 +17,8 @@ class Map extends Phaser.Scene {
 
         // create player object
         this.PLAYER_VEL = 500;
-        const playerSpawn = map.findObject('Spawns', obj => obj.name === "playerSpawn")
-        this.player = this.physics.add.image(playerSpawn.x, playerSpawn.y, 'player').setOrigin(0.5)
+        this.playerSpawn = map.findObject('Spawns', obj => obj.name === "playerSpawn")
+        this.player = this.physics.add.image(playerPosX, playerPosY, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
 
         // create object markers
@@ -70,6 +70,7 @@ class Map extends Phaser.Scene {
         keyS = this.input.keyboard.addKey('S')
         keyD = this.input.keyboard.addKey('D')
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
         // collisions        
         const objects = map.createFromObjects('Spawns', {
@@ -86,11 +87,9 @@ class Map extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 console.log(object.name)
                 if (object.name == 1) {
-                    console.log("starting battle with settings 1")
                     this.scene.start('battleScene')
                 }
                 else if (object.name == 2) {
-                    console.log("starting battle with settings 2")
                     this.scene.start('battleScene')
                 }
             }
@@ -119,5 +118,26 @@ class Map extends Phaser.Scene {
         this.playerDirection.normalize()
         this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
         this.frame.setPosition(this.player.x, this.player.y)
+
+        // inventory
+
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+            playerPosX = this.player.x
+            playerPosY = this.player.y
+            let textureManager = this.textures;
+            // take snapshot of the entire game viewport
+            // https://newdocs.phaser.io/docs/3.55.2/Phaser.Renderer.WebGL.WebGLRenderer#snapshot
+            // .snapshot(callback, type, encoderOptions)
+            // the image is automatically passed to the callback
+            this.game.renderer.snapshot((snapshotImage) => {
+                // make sure an existing texture w/ that key doesn't already exist
+                if(textureManager.exists('titlesnapshot')) {
+                    textureManager.remove('titlesnapshot');
+                }
+                // take the snapshot img returned from callback and add to texture manager
+                textureManager.addImage('titlesnapshot', snapshotImage);
+            });
+            this.scene.start('inventoryScene')
+        }
     }
 }

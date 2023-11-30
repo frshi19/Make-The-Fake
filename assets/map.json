@@ -331,18 +331,6 @@
          "name":"Spawns",
          "objects":[
                 {
-                 "height":0,
-                 "id":1,
-                 "name":"playerSpawn",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":480,
-                 "y":1920
-                }, 
-                {
                  "ellipse":true,
                  "height":48,
                  "id":6,

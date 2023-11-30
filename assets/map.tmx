@@ -875,9 +875,6 @@
 </data>
  </layer>
  <objectgroup id="3" name="Spawns">
-  <object id="1" name="playerSpawn" x="480" y="1920">
-   <point/>
-  </object>
   <object id="6" name="1" type="level" x="592" y="1760" width="48" height="48">
    <ellipse/>
   </object>

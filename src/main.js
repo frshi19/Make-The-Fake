@@ -16,13 +16,15 @@ let config = {
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [ Load, Menu, Credits, Map, Battle ]
+    scene: [ Load, Menu, Credits, Inventory, Map, Battle ]
 }
 
 let game = new Phaser.Game(config);
 
 // reserve keyboard vars
-let keySPACE, keyW, keyA, keyS, keyD
+let keySPACE, keyW, keyA, keyS, keyD, keyESC
 
-// keeps track of player currency between scenes
+// keeps track of data between scenes
 let coins = 500;
+let playerPosX = 480
+let playerPosY = 1920
