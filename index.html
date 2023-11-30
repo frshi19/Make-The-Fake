@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
+    <style media='screen' type='text/css'>
+        @font-face {
+            font-family: Seagram;
+            src: url('./assets/Seagram\ tfb.ttf');
+            font-weight:400;
+            font-weight:normal;
+        }
         body {
             background-image: url('./assets/background.jpg');
             background-repeat: no-repeat;
@@ -13,6 +19,8 @@
             border: 8px solid #888888;
         }
     </style>
+
+    <div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div>
 </head>
 <body>
     <script src="./lib/phaser.js"></script>

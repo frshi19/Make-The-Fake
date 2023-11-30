@@ -8,7 +8,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     width: 960,
@@ -23,10 +23,6 @@ let game = new Phaser.Game(config);
 
 // reserve keyboard vars
 let keySPACE, keyW, keyA, keyS, keyD
-
-// keeps track of player position
-let playerPosX = 500;
-let playerPosY = 2000;
 
 // keeps track of player currency between scenes
 let coins = 500;

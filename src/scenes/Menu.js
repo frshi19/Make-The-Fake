@@ -6,7 +6,7 @@ class Menu extends Phaser.Scene {
     create() {
         // temporary menu
         let menuConfig = {
-            fontFamily: 'consolas',
+            fontFamily: 'Seagram',
             fontSize: '32px',
             backgroundColor: '#000000',
             color: '#CCCCCC',

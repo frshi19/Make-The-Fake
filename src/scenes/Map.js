@@ -25,7 +25,7 @@ class Map extends Phaser.Scene {
         this.frame = this.add.image(this.player.x, this.player.y, 'frame')
 
         // set up main camera
-        this.cameras.main.setBounds(0, 0, 2400, 2400).setZoom(1)
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(1)
         this.cameras.main.startFollow(this.player, false, 0.4, 0.4)
         this.cameras.main.ignore([this.frame])
 
@@ -33,13 +33,38 @@ class Map extends Phaser.Scene {
         this.overlay = this.add.image(0,0,'overlay').setOrigin(0)
         this.overlay.setScrollFactor(0)
 
+        // set up coin counter
+        let coinConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '48px',
+            backgroundColor: '#000000',
+            color: '#3fAAA1',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+        if (coins < 10) {
+            this.resources = this.add.text(512, 464, '000' + coins, coinConfig).setScrollFactor(0)
+        }
+        else if (coins < 100) {
+            this.resources = this.add.text(512, 464, '00' + coins, coinConfig).setScrollFactor(0)
+        }else if (coins < 1000) {
+            this.resources = this.add.text(512, 464, '0' + coins, coinConfig).setScrollFactor(0)
+        }else{
+            this.resources = this.add.text(512, 464, coins, coinConfig).setScrollFactor(0)
+        }
+
         // set up mini map
-        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, 2400, 2400).setZoom(0.073)
+        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(0.073)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
-        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources])
 
         // set physics world bounds (so collideWorldBounds works properly)
-        this.physics.world.bounds.setTo(960/8, 544/4, 2400 - 960/4, 2400 - 544/2)
+        this.physics.world.bounds.setTo(960/8, 544/4, map.widthInPixels - this.game.config.width/4, map.heightInPixels - this.game.config.height/2)
 
         // set up keyboard input
         keyW = this.input.keyboard.addKey('W')
