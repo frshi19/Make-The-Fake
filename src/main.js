@@ -25,6 +25,11 @@ let game = new Phaser.Game(config);
 let keySPACE, keyW, keyA, keyS, keyD, keyESC
 
 // keeps track of data between scenes
-let coins = 500;
+let coins = 500
+let level = 1
+
 let playerPosX = 480
 let playerPosY = 1920
+
+let roster = []
+let MAXROSTERSIZE = 5

@@ -83,11 +83,16 @@ class Map extends Phaser.Scene {
         this.physics.world.enable(objects)
 
         this.physics.add.overlap(this.player, objects, (player, object) => {
-            console.log('LOOP')
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 console.log(object.name)
                 if (object.name == 1) {
-                    this.scene.start('battleScene')
+                    game.settings = {
+                        spawnRate: 5000,
+                        enemies: [],
+                        exp: 4,
+                        coins: 200
+                    }
+                    this.scene.start('battleScene') // level 1
                 }
                 else if (object.name == 2) {
                     this.scene.start('battleScene')
