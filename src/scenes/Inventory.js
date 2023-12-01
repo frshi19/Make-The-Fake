@@ -15,37 +15,36 @@ class Inventory extends Phaser.Scene {
         // create inventory box
         this.add.image(0, 0, 'inventory').setOrigin(0)
 
-
         // prepare array
         const troops = [];
-        // create slot objects
 
-        this.archer = this.physics.add.image(176, 112, 'archer_icon').setOrigin(0,0)
+        // create slot objects
+        this.archer = this.physics.add.image(176, 112, 'Archer_icon').setOrigin(0,0)
         this.archer.name = 'Archer'
         troops.push(this.archer)
 
-        this.sword = this.physics.add.image(256, 112, 'sword_icon').setOrigin(0,0)
+        this.sword = this.physics.add.image(256, 112, 'Swordsman_icon').setOrigin(0,0)
         this.sword.name = 'Swordsman'
         troops.push(this.sword)
 
-        this.shield = this.physics.add.image(416, 112, 'shield_icon').setOrigin(0,0)
+        this.shield = this.physics.add.image(416, 112, 'Shieldbearer_icon').setOrigin(0,0)
         this.shield.name = 'Shieldbearer'
         troops.push(this.shield)
 
-        this.axe = this.physics.add.image(336, 112, 'axe_icon').setOrigin(0,0)
+        this.axe = this.physics.add.image(336, 112, 'Axeman_icon').setOrigin(0,0)
         this.axe.name = 'Axeman'
         troops.push(this.axe)
 
-        this.spearman = this.physics.add.image(176, 192, 'spearman_icon').setOrigin(0,0)
+        this.spearman = this.physics.add.image(176, 192, 'Spearman_icon').setOrigin(0,0)
         this.spearman.name = 'Spearman'
         troops.push(this.spearman)
 
-        this.cavalry = this.physics.add.image(256, 192, 'cavalry_icon').setOrigin(0,0)
+        this.cavalry = this.physics.add.image(256, 192, 'Cavalry_icon').setOrigin(0,0)
         this.cavalry.name = 'Cavalry'
         troops.push(this.cavalry)
 
         
-        this.archangel = this.physics.add.image(336, 192, 'archangel_icon').setOrigin(0,0)
+        this.archangel = this.physics.add.image(336, 192, 'Archangel_icon').setOrigin(0,0)
         this.archangel.name = 'Archangel'
         troops.push(this.archangel)
         
@@ -65,22 +64,26 @@ class Inventory extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
-        // adding troops to roster
+        // adding troops to roster, remove if pressed again
         this.physics.add.overlap(this.cursor, troops, (cursor, troop)=> {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 if (troop.name == 'Archer'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Archer')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
                 } else if (troop.name == 'Swordsman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Swordsman')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
@@ -88,8 +91,10 @@ class Inventory extends Phaser.Scene {
                 else if (troop.name == 'Shieldbearer'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Shieldbearer')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
@@ -97,8 +102,10 @@ class Inventory extends Phaser.Scene {
                 else if (troop.name == 'Axeman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Axeman')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
@@ -106,8 +113,10 @@ class Inventory extends Phaser.Scene {
                 else if (troop.name == 'Spearman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Spearman')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
@@ -115,8 +124,10 @@ class Inventory extends Phaser.Scene {
                 else if (troop.name == 'Cavalry'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Cavalry')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
@@ -124,14 +135,31 @@ class Inventory extends Phaser.Scene {
                 else if (troop.name == 'Archangel'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Archangel')
+                        this.updateRoster()
                     } else if(this.checkDuplicates(troop)){
                         this.removeTroop(troop)
+                        this.updateRoster()
                     } else {
                         console.log("NUH UH (play err anim)")
                     }
                 }
             }
         })
+
+        // create empty roster objects
+        this.slots = []
+        this.slot0 = this.add.image(112, 464, 'black_box').setOrigin(0,0)
+        this.slot1 = this.add.image(192, 464, 'black_box').setOrigin(0,0)
+        this.slot2 = this.add.image(272, 464, 'black_box').setOrigin(0,0)
+        this.slot3 = this.add.image(352, 464, 'black_box').setOrigin(0,0)
+        this.slot4 = this.add.image(432, 464, 'black_box').setOrigin(0,0)
+        this.slots.push(this.slot0)
+        this.slots.push(this.slot1)
+        this.slots.push(this.slot2)
+        this.slots.push(this.slot3)
+        this.slots.push(this.slot4)
+
+        this.updateRoster()
     }
 
     update() {
@@ -170,6 +198,18 @@ class Inventory extends Phaser.Scene {
             if (roster[i] == troopToRemove.name) {
                 roster.splice(i, 1)
             }
+        }
+    }
+
+    // updates roster in bottom of screen
+    updateRoster() {
+        let i
+        for (i = 0; i < roster.length; i++) {
+            this.slots[i].setTexture(roster[i] + '_icon')
+        }
+        while(i < 5) {
+            this.slots[i].setTexture('black_box')
+            i++
         }
     }
 }

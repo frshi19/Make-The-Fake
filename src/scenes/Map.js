@@ -32,6 +32,11 @@ class Map extends Phaser.Scene {
         this.overlay = this.add.image(0,0,'overlay').setOrigin(0)
         this.overlay.setScrollFactor(0)
 
+        // set up roster icons
+        for (let i = 0; i < roster.length; i++) {
+            this.add.image(112 + (i * 80), 464, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0)
+        }
+
         // set up coin counter
         let coinConfig = {
             fontFamily: 'Seagram',

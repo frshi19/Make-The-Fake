@@ -25,6 +25,11 @@ class Battle extends Phaser.Scene {
         // create overlay
         this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
 
+        // set up roster icons
+        for (let i = 0; i < roster.length; i++) {
+            this.add.image(192 + (i * 80), 48, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0)
+        }
+
         // set up coin counter
         let coinConfig = {
             fontFamily: 'Seagram',
