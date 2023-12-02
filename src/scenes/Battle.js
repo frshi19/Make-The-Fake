@@ -11,6 +11,7 @@ class Battle extends Phaser.Scene {
 
         // set up main camera
         //this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
+        this.cameras.main.setZoom(1)
         this.cameras.main.startFollow(this.player)
         this.cameras.main.flash(500, 255, 255, 0, true)
 
@@ -92,13 +93,19 @@ class Battle extends Phaser.Scene {
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(0 + this.cameras.main.width / 2, 0, 1920 - this.cameras.main.width, 544)
 
-        // summon troops
+        // prepare arrays for each army
+        this.angels = []
+        // summon angel troops
         this.physics.add.overlap(this.cursor, this.rosterArray, (cursor, troop)=> {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if (troop.name == 'Archer'){ 
-                    console.log('summoning archer')
-                } else if (troop.name == 'Swordsman'){ 
+                if (troop.name == 'Swordsman'){ 
                     console.log('summoning swordsman')
+                    this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 100, 20, 'Swordsman', 200))
+
+                }else if (troop.name == 'Archer'){ 
+                    console.log('summoning archer')
+                    this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 100, 20, 'Archer', 200))
+                    console.log(this.angels)
                 }
                 else if (troop.name == 'Shieldbearer'){ 
                     console.log('summoning shieldbearer')
@@ -117,6 +124,14 @@ class Battle extends Phaser.Scene {
                 }
             }
         })
+        // summon demon troops
+
+        // creat collisions for troops
+        GroundLayer.setCollisionByProperty({
+            collides: true
+        })
+
+        this.physics.add.collider(this.angels, GroundLayer)
     }
 
     update() {
@@ -139,5 +154,10 @@ class Battle extends Phaser.Scene {
         }
         this.playerDirection.normalize()
         this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
+
+        // update angels
+        for (let i = 0; i < this.angels.length; i++) {
+            this.angels[i].update()
+        }
     }
 }

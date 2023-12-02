@@ -31,5 +31,5 @@ let level = 1
 let playerPosX = 480
 let playerPosY = 1920
 
-let roster = ['Archer']
+let roster = ['Swordsman']
 let MAXROSTERSIZE = 5

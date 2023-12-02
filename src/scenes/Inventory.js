@@ -4,6 +4,9 @@ class Inventory extends Phaser.Scene {
     }
 
     create() {
+        // flag for printing info just once
+        this.infoFlag = true;
+        
         // add snapshot image from prior Scene
         if (this.textures.exists('titlesnapshot')) {
             let titleSnap = this.add.image(0, 0, 'titlesnapshot').setOrigin(0);
@@ -19,13 +22,13 @@ class Inventory extends Phaser.Scene {
         const troops = [];
 
         // create slot objects
-        this.archer = this.physics.add.image(176, 112, 'Archer_icon').setOrigin(0,0)
-        this.archer.name = 'Archer'
-        troops.push(this.archer)
-
-        this.sword = this.physics.add.image(256, 112, 'Swordsman_icon').setOrigin(0,0)
+        this.sword = this.physics.add.image(176, 112, 'Swordsman_icon').setOrigin(0,0)
         this.sword.name = 'Swordsman'
         troops.push(this.sword)
+
+        this.archer = this.physics.add.image(256, 112, 'Archer_icon').setOrigin(0,0)
+        this.archer.name = 'Archer'
+        troops.push(this.archer)
 
         this.shield = this.physics.add.image(416, 112, 'Shieldbearer_icon').setOrigin(0,0)
         this.shield.name = 'Shieldbearer'
@@ -47,14 +50,18 @@ class Inventory extends Phaser.Scene {
         this.archangel = this.physics.add.image(336, 192, 'Archangel_icon').setOrigin(0,0)
         this.archangel.name = 'Archangel'
         troops.push(this.archangel)
-        
-        this.mystery = this.physics.add.image(416, 192, 'question_mark').setOrigin(0,0)
 
-        console.log(troops)
+        this.god = this.physics.add.image(416, 192, 'God_icon').setOrigin(0,0)
+        this.god.name = 'God'
+        troops.push(this.god)
+        
+        this.mystery = this.physics.add.image(416, 192, 'God_icon').setOrigin(0,0)
+
+        // demon icons
+        this.warrior = this.physics.add.image(496, 112, 'Warrior_icon').setOrigin(0,0)
 
         // create player cursor object
-        this.cursor = this.physics.add.image(this.archer.x - 2, this.archer.y - 2, 'cursor').setOrigin(0,0)
-        
+        this.cursor = this.physics.add.image(this.sword.x - 2, this.sword.y - 2, 'cursor').setOrigin(0,0)
 
         // keyboard defs
         keyW = this.input.keyboard.addKey('W')
@@ -66,18 +73,12 @@ class Inventory extends Phaser.Scene {
 
         // adding troops to roster, remove if pressed again
         this.physics.add.overlap(this.cursor, troops, (cursor, troop)=> {
+            if (this.infoFlag) {
+                this.add.image(160, 272, troop.name + '_info').setOrigin(0,0)
+                this.infoFlag = false;
+            }
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if (troop.name == 'Archer'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
-                        roster.push('Archer')
-                        this.updateRoster()
-                    } else if(this.checkDuplicates(troop) && roster.length > 1){
-                        this.removeTroop(troop)
-                        this.updateRoster()
-                    } else {
-                        console.log("NUH UH (play err anim)")
-                    }
-                } else if (troop.name == 'Swordsman'){ 
+                if (troop.name == 'Swordsman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Swordsman')
                         this.updateRoster()
@@ -85,9 +86,20 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
                     }
                 }
+                else if (troop.name == 'Archer'){ 
+                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        roster.push('Archer')
+                        this.updateRoster()
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.removeTroop(troop)
+                        this.updateRoster()
+                    } else {
+                        console.log("play err anim")
+                    }
+                } 
                 else if (troop.name == 'Shieldbearer'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Shieldbearer')
@@ -96,7 +108,7 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
@@ -107,7 +119,7 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Spearman'){ 
@@ -118,7 +130,7 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Cavalry'){ 
@@ -129,7 +141,7 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
@@ -140,7 +152,18 @@ class Inventory extends Phaser.Scene {
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
-                        console.log("NUH UH (play err anim)")
+                        console.log("play err anim")
+                    }
+                }
+                else if (troop.name == 'God'){ 
+                    if (roster.length < MAXROSTERSIZE && level >= 60 && !this.checkDuplicates(troop)) {
+                        roster.push('God')
+                        this.updateRoster()
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.removeTroop(troop)
+                        this.updateRoster()
+                    } else {
+                        console.log("play err anim")
                     }
                 }
             }
@@ -166,15 +189,19 @@ class Inventory extends Phaser.Scene {
         // navigate inventory
         if (Phaser.Input.Keyboard.JustDown(keyW) && this.cursor.y != 112 - 2) {
             this.cursor.y -= 80
+            this.infoFlag = true
         }
         if (Phaser.Input.Keyboard.JustDown(keyA) && this.cursor.x != 176 - 2) {
             this.cursor.x -= 80
+            this.infoFlag = true
         }
         if (Phaser.Input.Keyboard.JustDown(keyS) && this.cursor.y != 192 - 2) {
             this.cursor.y += 80
+            this.infoFlag = true
         }
         if (Phaser.Input.Keyboard.JustDown(keyD) && this.cursor.x != 416 - 2) {
             this.cursor.x += 80
+            this.infoFlag = true
         }
         // return to map view
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
