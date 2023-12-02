@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene {
 
     create() {
         // temporary menu
-        let menuConfig = {
+        this.menuConfig = {
             fontFamily: 'Seagram',
             fontSize: '32px',
             backgroundColor: '#000000',
@@ -18,9 +18,9 @@ class Menu extends Phaser.Scene {
                 right: 5
             },
         }
-        this.add.text(game.config.width/2, game.config.height/4, 'Heaven Vs. Hell (PROTOTYPE)', menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/4, 'Heaven Vs. Hell (PROTOTYPE)', this.menuConfig).setOrigin(0.5)
 
-        this.add.text(game.config.width/2, game.config.height/2, 'Press Space to Start', menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2, 'Press Space to Start', this.menuConfig).setOrigin(0.5)
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)

@@ -25,6 +25,24 @@ class Battle extends Phaser.Scene {
         // create overlay
         this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
 
+        // create tooltips
+        let textConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '48px',
+            backgroundColor: '#000000',
+            color: '#FFFFFF',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 12,
+                right: 8
+            },
+            fixedWidth: 64
+        }
+        this.add.text(112,48, 'Q', textConfig).setOrigin(0,0).setScrollFactor(0)
+        this.add.text(592,48, 'E', textConfig).setOrigin(0,0).setScrollFactor(0)
+
         // set up roster icons
         this.rosterArray = []
         for (let i = 0; i < roster.length; i++) {
