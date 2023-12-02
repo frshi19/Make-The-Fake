@@ -33,8 +33,9 @@ class Map extends Phaser.Scene {
         this.overlay.setScrollFactor(0)
 
         // set up roster icons
+        this.ignoreArray = []
         for (let i = 0; i < roster.length; i++) {
-            this.add.image(112 + (i * 80), 464, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0)
+            this.ignoreArray.push(this.add.image(112 + (i * 80), 464, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
         }
 
         // set up coin counter
@@ -90,16 +91,16 @@ class Map extends Phaser.Scene {
         this.physics.add.overlap(this.player, objects, (player, object) => {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 console.log(object.name)
-                if (object.name == 1) {
+                if (object.name == 1) { // level 1
                     game.settings = {
                         spawnRate: 5000,
                         enemies: [],
                         exp: 4,
                         coins: 200
                     }
-                    this.scene.start('battleScene') // level 1
+                    this.scene.start('battleScene')
                 }
-                else if (object.name == 2) {
+                else if (object.name == 2) { // level 2
                     this.scene.start('battleScene')
                 }
             }
@@ -107,7 +108,7 @@ class Map extends Phaser.Scene {
 
         // camera ignores
         this.cameras.main.ignore([this.frame, objects])
-        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources, this.ignoreArray])
     }
 
     update() {

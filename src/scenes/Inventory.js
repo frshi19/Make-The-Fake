@@ -71,7 +71,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Archer')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -81,7 +81,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Swordsman')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -92,7 +92,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Shieldbearer')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -103,7 +103,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Axeman')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -114,7 +114,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Spearman')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -125,7 +125,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Cavalry')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
@@ -136,7 +136,7 @@ class Inventory extends Phaser.Scene {
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
                         roster.push('Archangel')
                         this.updateRoster()
-                    } else if(this.checkDuplicates(troop)){
+                    } else if(this.checkDuplicates(troop) && roster.length > 1){
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {

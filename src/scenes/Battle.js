@@ -6,11 +6,11 @@ class Battle extends Phaser.Scene {
     create() {
         // create invisible player obj
         this.PLAYER_VEL = 500;
-        this.player = this.physics.add.image(960, 0, 'player').setOrigin(0.5)
+        this.player = this.physics.add.image(960, 272, 'player').setOrigin(0.5)
         this.player.body.setCollideWorldBounds(true)
 
         // set up main camera
-        this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
+        //this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
         this.cameras.main.startFollow(this.player)
         this.cameras.main.flash(500, 255, 255, 0, true)
 
@@ -26,9 +26,17 @@ class Battle extends Phaser.Scene {
         this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
 
         // set up roster icons
+        this.rosterArray = []
         for (let i = 0; i < roster.length; i++) {
-            this.add.image(192 + (i * 80), 48, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0)
+            this.rosterArray.push(this.physics.add.image(192 + (i * 80), 48, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
         }
+        // assign names
+        for (let i = 0; i < roster.length; i++) {
+            this.rosterArray[i].name = roster[i]
+        }
+
+        // create player cursor object
+        this.cursor = this.physics.add.image(this.rosterArray[0].x - 2, this.rosterArray[0].y - 2, 'cursor').setOrigin(0,0).setScrollFactor(0)
 
         // set up coin counter
         let coinConfig = {
@@ -58,24 +66,60 @@ class Battle extends Phaser.Scene {
         // keyboard input
         keyA = this.input.keyboard.addKey('A')
         keyD = this.input.keyboard.addKey('D')
+        keyQ = this.input.keyboard.addKey('Q')
+        keyE = this.input.keyboard.addKey('E')
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(0 + this.cameras.main.width / 2, 0, 1920 - this.cameras.main.width, 544)
 
-
+        // summon troops
+        this.physics.add.overlap(this.cursor, this.rosterArray, (cursor, troop)=> {
+            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                if (troop.name == 'Archer'){ 
+                    console.log('summoning archer')
+                } else if (troop.name == 'Swordsman'){ 
+                    console.log('summoning swordsman')
+                }
+                else if (troop.name == 'Shieldbearer'){ 
+                    console.log('summoning shieldbearer')
+                }
+                else if (troop.name == 'Axeman'){ 
+                    console.log('summoning axeman')
+                }
+                else if (troop.name == 'Spearman'){ 
+                    console.log('summoning spearman')
+                }
+                else if (troop.name == 'Cavalry'){ 
+                    console.log('summoning cavalry')
+                }
+                else if (troop.name == 'Archangel'){ 
+                    console.log('summoning archangel')
+                }
+            }
+        })
     }
 
     update() {
-         // player(camera) movement
-         this.playerDirection = new Phaser.Math.Vector2(0)
-         if(keyA.isDown) {
-             this.playerDirection.x = -1
-             this.player.setFlipX(true)
-         } else if(keyD.isDown) {
-             this.playerDirection.x = 1
-             this.player.setFlipX(false)
-         }
-         this.playerDirection.normalize()
-         this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
+        // navigate battle roster
+        if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 192 - 2) {
+            this.cursor.x -= 80
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 512 - 2) {
+            this.cursor.x += 80
+        }
+
+        // player(camera) movement
+        this.playerDirection = new Phaser.Math.Vector2(0)
+        if(keyA.isDown) {
+            this.playerDirection.x = -1
+            this.player.setFlipX(true)
+        } else if(keyD.isDown) {
+            this.playerDirection.x = 1
+            this.player.setFlipX(false)
+        }
+        this.playerDirection.normalize()
+        this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
     }
 }

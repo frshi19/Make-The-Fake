@@ -8,7 +8,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     width: 960,
@@ -22,7 +22,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 // reserve keyboard vars
-let keySPACE, keyW, keyA, keyS, keyD, keyESC
+let keySPACE, keyW, keyA, keyS, keyD, keyQ, keyE, keyESC
 
 // keeps track of data between scenes
 let coins = 500
@@ -31,5 +31,5 @@ let level = 1
 let playerPosX = 480
 let playerPosY = 1920
 
-let roster = []
+let roster = ['Archer']
 let MAXROSTERSIZE = 5
