@@ -83,18 +83,20 @@ class Map extends Phaser.Scene {
             type: 'level'
         })
 
+        // minimap objects for the nodes
         objects.forEach(function (object) {
             object.setTexture('red_dot')
         })
         this.physics.world.enable(objects)
 
+        // create levels
         this.physics.add.overlap(this.player, objects, (player, object) => {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 console.log(object.name)
                 if (object.name == 1) { // level 1
                     game.settings = {
                         spawnRate: 5000,
-                        enemies: [],
+                        enemies: ['Warrior', 'Pyromancer'],
                         exp: 4,
                         coins: 200
                     }

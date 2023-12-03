@@ -28,6 +28,7 @@ class Load extends Phaser.Scene {
 
         // load demon icons
         this.load.image('Warrior_icon', 'warrior_icon.png')
+        this.load.image('Pyromancer_icon', 'pyro_icon.png')
 
         // load angel info
         this.load.image('Swordsman_info', 'swordsman_info.png')

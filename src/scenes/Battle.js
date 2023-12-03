@@ -95,36 +95,44 @@ class Battle extends Phaser.Scene {
 
         // prepare arrays for each army
         this.angels = []
+        this.demons = []
+        
         // summon angel troops
         this.physics.add.overlap(this.cursor, this.rosterArray, (cursor, troop)=> {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 if (troop.name == 'Swordsman'){ 
-                    console.log('summoning swordsman')
                     this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 100, 20, 'Swordsman', 200))
-
-                }else if (troop.name == 'Archer'){ 
-                    console.log('summoning archer')
+                }
+                else if (troop.name == 'Archer'){ 
                     this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 100, 20, 'Archer', 200))
-                    console.log(this.angels)
                 }
                 else if (troop.name == 'Shieldbearer'){ 
-                    console.log('summoning shieldbearer')
+                    this.angels.push(new Angel(this, 'Shieldbearer_icon', 'Shieldbearer', 100, 20, 'Shieldbearer', 200))
                 }
                 else if (troop.name == 'Axeman'){ 
-                    console.log('summoning axeman')
+                    this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 100, 20, 'Axeman', 200))
                 }
                 else if (troop.name == 'Spearman'){ 
-                    console.log('summoning spearman')
+                    this.angels.push(new Angel(this, 'Spearman_icon', 'Spearman', 100, 20, 'Spearman', 200))
                 }
                 else if (troop.name == 'Cavalry'){ 
-                    console.log('summoning cavalry')
+                    this.angels.push(new Angel(this, 'Cavalry_icon', 'Cavalry', 100, 20, 'Cavalry', 200))
                 }
                 else if (troop.name == 'Archangel'){ 
-                    console.log('summoning archangel')
+                    this.angels.push(new Angel(this, 'Archangel_icon', 'Archangel', 100, 20, 'Archangel', 200))
                 }
             }
         })
         // summon demon troops
+        this.summoner = this.time.addEvent({
+            delay: this.game.settings.spawnRate, 
+            callback: () => {
+                let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
+                this.demons.push(new Demon(this, game.settings.enemies[k] + '_icon', game.settings.enemies[k] , 100, 20, 'fix me later', 200))
+            },
+            callbackScope:this,
+            loop: true
+        });
 
         // creat collisions for troops
         GroundLayer.setCollisionByProperty({
@@ -132,6 +140,11 @@ class Battle extends Phaser.Scene {
         })
 
         this.physics.add.collider(this.angels, GroundLayer)
+        this.physics.add.collider(this.demons, GroundLayer)
+
+        this.physics.add.collider(this.angels, this.demons, (angel, demon)=> {
+            angel.hp.decrease(1)
+        })
     }
 
     update() {
@@ -158,6 +171,16 @@ class Battle extends Phaser.Scene {
         // update angels
         for (let i = 0; i < this.angels.length; i++) {
             this.angels[i].update()
+            if(this.angels[i].hp.value == 0) {
+                this.angels[i].hp.bar.destroy()
+                this.angels[i].destroy()
+                this.angels.splice(i, 1)
+            }
         }
+        // update demons
+        for (let i = 0; i < this.demons.length; i++) {
+            this.demons[i].update()
+        }
+
     }
 }
