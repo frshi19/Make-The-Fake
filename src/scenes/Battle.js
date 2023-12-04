@@ -191,7 +191,12 @@ class Battle extends Phaser.Scene {
             callback: () => {
                 if(!this.gameOver) {
                     let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
-                    this.demons.push(new Demon(this, game.settings.enemies[k] + '_icon', game.settings.enemies[k] , 100, 1, 'fix me later', 200))
+                    console.log()
+                    if (this.game.settings.enemies[k] == 'Warrior') {
+                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150))
+                    } else if (this.game.settings.enemies[k] == 'Pyromancer') {
+                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150))
+                    }
                 }
             },
             callbackScope:this,
@@ -259,6 +264,7 @@ class Battle extends Phaser.Scene {
             for (let i = 0; i < this.angels.length; i++) {
                 this.angels[i].update()
                 if(this.angels[i].hp.value == 0) {
+                    this.sound.play('out_sfx')
                     this.angels[i].hp.bar.destroy()
                     this.angels[i].destroy()
                     this.angels.splice(i, 1)
@@ -269,6 +275,7 @@ class Battle extends Phaser.Scene {
             for (let i = 0; i < this.demons.length; i++) {
                 this.demons[i].update()
                 if(this.demons[i].hp.value == 0) {
+                    this.sound.play('out_sfx')
                     this.demons[i].hp.bar.destroy()
                     this.demons[i].destroy()
                     this.demons.splice(i, 1)
