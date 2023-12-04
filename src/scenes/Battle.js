@@ -4,6 +4,9 @@ class Battle extends Phaser.Scene {
     }
 
     create() {
+        // create game over flag
+        this.gameOver = false;
+
         // create invisible player obj
         this.PLAYER_VEL = 500;
         this.player = this.physics.add.image(960, 272, 'player').setOrigin(0.5)
@@ -20,11 +23,10 @@ class Battle extends Phaser.Scene {
         const tileset = map2.addTilesetImage('tileset', 'tilesetImage')
         const GroundLayer = map2.createLayer('Ground', tileset, 0, 0)
         const Sky = map2.createLayer('Sky', tileset, 0, 0)
-        const Bases = map2.createLayer('Bases', tileset, 0, 0)
         const Sun = map2.createLayer('Sun and Clouds', tileset, 0, 0)
 
         // create overlay
-        this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0)
+        this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0).depth = 1
 
         // create tooltips
         let textConfig = {
@@ -52,10 +54,12 @@ class Battle extends Phaser.Scene {
         // assign names
         for (let i = 0; i < roster.length; i++) {
             this.rosterArray[i].name = roster[i]
+            this.rosterArray[i].depth = 2
         }
 
         // create player cursor object
         this.cursor = this.physics.add.image(this.rosterArray[0].x - 2, this.rosterArray[0].y - 2, 'cursor').setOrigin(0,0).setScrollFactor(0)
+        this.cursor.depth = 3
 
         // set up coin counter
         let coinConfig = {
@@ -81,6 +85,7 @@ class Battle extends Phaser.Scene {
         }else{
             this.resources = this.add.text(672, 48, coins, coinConfig).setScrollFactor(0)
         }
+        this.resources.depth = 4
 
         // keyboard input
         keyA = this.input.keyboard.addKey('A')
@@ -134,25 +139,47 @@ class Battle extends Phaser.Scene {
             loop: true
         });
 
-        // creat collisions for troops
+        // create angel and demon bases
+        this.angelBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "angelBase")
+        this.demonBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "demonBase")
+        this.angelBase = this.physics.add.sprite(this.angelBaseSpawn.x, this.angelBaseSpawn.y, 'angelBaseImg').setImmovable(true)
+        this.angelBase.hp = new HealthBar(this, 200 + 24 - 2 , 432 - 192);
+        this.demonBase = this.physics.add.sprite(this.demonBaseSpawn.x, this.demonBaseSpawn.y, 'demonBaseImg').setImmovable(true)
+        this.demonBase.hp = new HealthBar(this, 1720 - 96 + 2, 432 - 192);
+
+        // create collisions for troops
         GroundLayer.setCollisionByProperty({
             collides: true
         })
 
+        // collision with ground because theres gravity for some reason
         this.physics.add.collider(this.angels, GroundLayer)
         this.physics.add.collider(this.demons, GroundLayer)
 
+        // collision between troop and base
+        this.physics.add.collider(this.demons, this.angelBase, (demon, base)=> {
+            base.hp.decrease(1)
+        }) 
+        this.physics.add.collider(this.angels, this.demonBase, (angel, base)=> {
+            base.hp.decrease(1)
+        })
+        
+        // collision between troops
         this.physics.add.collider(this.angels, this.demons, (angel, demon)=> {
             angel.hp.decrease(1)
+            demon.hp.decrease(1)
         })
+
     }
 
     update() {
         // navigate battle roster
         if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 192 - 2) {
+            this.sound.play('move_sfx')
             this.cursor.x -= 80
         }
         if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 512 - 2) {
+            this.sound.play('move_sfx')
             this.cursor.x += 80
         }
 
@@ -177,10 +204,24 @@ class Battle extends Phaser.Scene {
                 this.angels.splice(i, 1)
             }
         }
+
         // update demons
         for (let i = 0; i < this.demons.length; i++) {
             this.demons[i].update()
+            if(this.demons[i].hp.value == 0) {
+                this.demons[i].hp.bar.destroy()
+                this.demons[i].destroy()
+                this.demons.splice(i, 1)
+            }
         }
 
+        // check base health to see if game over
+        if (!this.gameOver && this.angelBase.hp.value == 0) {
+            this.gameOver = true;
+            console.log('you lose')
+        } else if (!this.gameOver && this.demonBase.hp.value == 0) {
+            this.gameOver = true;
+            console.log('you win')
+        } 
     }
 }

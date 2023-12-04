@@ -92,6 +92,7 @@ class Map extends Phaser.Scene {
         // create levels
         this.physics.add.overlap(this.player, objects, (player, object) => {
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                this.sound.play('select_sfx')
                 console.log(object.name)
                 if (object.name == 1) { // level 1
                     game.settings = {

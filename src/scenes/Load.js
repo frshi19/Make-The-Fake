@@ -4,6 +4,7 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
+        // load map images
         this.load.path = 'assets/'
         this.load.image('map', 'map.png')
         this.load.image('player', 'player.png')
@@ -15,6 +16,10 @@ class Load extends Phaser.Scene {
         this.load.image('black_box', 'black_box.png')
         this.load.image('inventory', 'inventory.png')
         this.load.image('cursor', 'cursor.png')
+
+        // load battle images
+        this.load.image('angelBaseImg', 'angelBaseImg.png')
+        this.load.image('demonBaseImg', 'demonBaseImg.png')
 
         // load angel icons
         this.load.image('Swordsman_icon', 'sword_icon.png')
@@ -40,9 +45,17 @@ class Load extends Phaser.Scene {
         this.load.image('Archangel_info', 'archangel_info.png')
         this.load.image('God_info', 'God_info.png')
 
+        // load tileset and info
         this.load.image('tilesetImage', 'tileset.png')
         this.load.tilemapTiledJSON('tilemapJSON', 'map.json')
         this.load.tilemapTiledJSON('tilemapJSON2', 'battlefield.json')
+
+        // load sfx and music
+        this.load.audio('move_sfx', 'move.wav')
+        this.load.audio('in_sfx', 'click_in.wav')
+        this.load.audio('out_sfx', 'click_out.wav')
+        this.load.audio('err_sfx', 'click_err.wav')
+        this.load.audio('select_sfx', 'select.wav')
     }
 
     create() {

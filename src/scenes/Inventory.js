@@ -74,95 +74,120 @@ class Inventory extends Phaser.Scene {
         // adding troops to roster, remove if pressed again
         this.physics.add.overlap(this.cursor, troops, (cursor, troop)=> {
             if (this.infoFlag) {
+                this.sound.play('move_sfx')
                 this.add.image(160, 272, troop.name + '_info').setOrigin(0,0)
                 this.infoFlag = false;
             }
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
                 if (troop.name == 'Swordsman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Swordsman')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Archer'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Archer')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 } 
                 else if (troop.name == 'Shieldbearer'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Shieldbearer')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Axeman')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Spearman'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Spearman')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Cavalry'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Cavalry')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('Archangel')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'God'){ 
                     if (roster.length < MAXROSTERSIZE && level >= 60 && !this.checkDuplicates(troop)) {
+                        this.sound.play('in_sfx')
                         roster.push('God')
                         this.updateRoster()
                     } else if(this.checkDuplicates(troop) && roster.length > 1){
+                        this.sound.play('out_sfx')
                         this.removeTroop(troop)
                         this.updateRoster()
                     } else {
+                        this.sound.play('err_sfx')
                         console.log("play err anim")
                     }
                 }
@@ -205,6 +230,7 @@ class Inventory extends Phaser.Scene {
         }
         // return to map view
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+            this.sound.play('move_sfx')
             this.scene.start('mapScene')
         }
     }
