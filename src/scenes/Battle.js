@@ -193,9 +193,9 @@ class Battle extends Phaser.Scene {
                     let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
                     console.log()
                     if (this.game.settings.enemies[k] == 'Warrior') {
-                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150))
+                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120))
                     } else if (this.game.settings.enemies[k] == 'Pyromancer') {
-                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150))
+                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100))
                     }
                 }
             },
@@ -276,6 +276,8 @@ class Battle extends Phaser.Scene {
                 this.demons[i].update()
                 if(this.demons[i].hp.value == 0) {
                     this.sound.play('out_sfx')
+                    coins += this.demons[i].money
+                    this.updateCoins()
                     this.demons[i].hp.bar.destroy()
                     this.demons[i].destroy()
                     this.demons.splice(i, 1)
@@ -297,8 +299,6 @@ class Battle extends Phaser.Scene {
             for (let i = 0; i < this.angels.length; i++) {
                 this.angels[i].body.setVelocity(0,0)
             }
-
-            // update demons
             for (let i = 0; i < this.demons.length; i++) {
                 this.demons[i].body.setVelocity(0,0)
             }
@@ -309,7 +309,6 @@ class Battle extends Phaser.Scene {
     }
 
     updateCoins() {
-        console.log('coins: ' + coins)
         if (coins < 10) {
             this.resources.setText('000' + coins, this.coinConfig).setScrollFactor(0)
         }

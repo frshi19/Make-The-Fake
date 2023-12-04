@@ -1,6 +1,6 @@
 // Demon prefab
 class Demon extends Phaser.GameObjects.Sprite{
-    constructor(scene, texture, name, health, damage, modifier, moveSpeed) {
+    constructor(scene, texture, name, health, damage, modifier, moveSpeed, gold) {
         super(scene, 1720, 432, texture);
         scene.add.existing(this)
         scene.physics.add.existing(this)
@@ -11,6 +11,7 @@ class Demon extends Phaser.GameObjects.Sprite{
         this.moveSpeed = moveSpeed;
         this.body.setGravity(0, 100)
         this.hp = new HealthBar(scene, 200 - 32, 432 - 48, health);
+        this.money = gold;
     }
 
     update(){
