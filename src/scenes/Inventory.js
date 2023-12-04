@@ -59,9 +59,44 @@ class Inventory extends Phaser.Scene {
 
         // demon icons
         this.warrior = this.physics.add.image(496, 112, 'Warrior_icon').setOrigin(0,0)
+        this.pyromancer = this.physics.add.image(576, 112, 'Pyromancer_icon').setOrigin(0,0)
+        this.hound = this.physics.add.image(656, 112, 'Hound_icon').setOrigin(0,0)
+        this.knight = this.physics.add.image(496, 192, 'BK_icon').setOrigin(0,0)
+        this.spearman = this.physics.add.image(576, 192, 'Speardemon_icon').setOrigin(0,0)
+        this.soulripper = this.physics.add.image(656, 192, 'Soulripper_icon').setOrigin(0,0)
+        this.dragon = this.physics.add.image(576, 272, 'BD_icon').setOrigin(0,0)
+        this.satan = this.physics.add.image(656, 272, 'Satan_icon').setOrigin(0,0)
+
+        // temp icons for prototype
+        this.add.image(656, 112, 'God_icon').setOrigin(0,0)
+        this.add.image(496, 192, 'God_icon').setOrigin(0,0)
+        this.add.image(576, 192, 'God_icon').setOrigin(0,0)
+        this.add.image(656, 192, 'God_icon').setOrigin(0,0)
+        this.add.image(576, 272, 'God_icon').setOrigin(0,0)
+        this.add.image(656, 272, 'God_icon').setOrigin(0,0)
 
         // create player cursor object
         this.cursor = this.physics.add.image(this.sword.x - 2, this.sword.y - 2, 'cursor').setOrigin(0,0)
+
+        // create tutorial text
+        let tutorialConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '32px',
+            backgroundColor: '#000000',
+            color: '#AAFFFF',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+        if (tutorial == 1) {
+            tutorial = 2
+            this.tutorialText = this.add.text(480, 64, 'Use WASD to move your cursor around\nPress SPACE to select or deselect a minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.add.text(760, 376, 'No lvl resritions for prototype\nPress TAB again to exit', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+        }
 
         // keyboard defs
         keyW = this.input.keyboard.addKey('W')
@@ -70,6 +105,7 @@ class Inventory extends Phaser.Scene {
         keyD = this.input.keyboard.addKey('D')
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
+        keyTAB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
 
         // adding troops to roster, remove if pressed again
         this.physics.add.overlap(this.cursor, troops, (cursor, troop)=> {
@@ -229,6 +265,11 @@ class Inventory extends Phaser.Scene {
             this.infoFlag = true
         }
         // return to map view
+        if (Phaser.Input.Keyboard.JustDown(keyTAB)) {
+            this.sound.play('move_sfx')
+            this.scene.start('mapScene')
+        }
+        // escape to menu
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.sound.play('move_sfx')
             this.scene.start('mapScene')

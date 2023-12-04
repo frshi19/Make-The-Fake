@@ -28,6 +28,7 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.sound.play('move_sfx')
             this.scene.start('mapScene')
         }
     }

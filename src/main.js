@@ -22,9 +22,11 @@ let config = {
 let game = new Phaser.Game(config);
 
 // reserve keyboard vars
-let keySPACE, keyW, keyA, keyS, keyD, keyQ, keyE, keyESC
+let keySPACE, keyW, keyA, keyS, keyD, keyQ, keyE, keyESC, keyTAB
 
 // keeps track of data between scenes
+let tutorial = 0
+
 let coins = 500
 let level = 1
 

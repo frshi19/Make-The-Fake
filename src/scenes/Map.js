@@ -70,6 +70,31 @@ class Map extends Phaser.Scene {
         // set physics world bounds (so collideWorldBounds works properly)
         this.physics.world.bounds.setTo(960/8, 544/4, map.widthInPixels - this.game.config.width/4, map.heightInPixels - this.game.config.height/2)
 
+        // tutorial text
+        let tutorialConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '32px',
+            backgroundColor: '#000000',
+            color: '#AAFFFF',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+
+        this.tutorialText
+            
+        if (tutorial == 0) {
+            tutorial = 1
+            this.tutorialText = this.add.text(480, 272, 'Welcome To Heaven Vs. Hell\nCommand the armies of heaven against the forces of Satan.\n\nComplete battles and work your way towards the final boss\n\nPress TAB to select your roster and\nview information on minions you have discovered', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+        } else if (tutorial == 2) { 
+            tutorial = 3
+            this.tutorialText = this.add.text(480, 136, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+        }
+
         // set up keyboard input
         keyW = this.input.keyboard.addKey('W')
         keyA = this.input.keyboard.addKey('A')
@@ -77,6 +102,7 @@ class Map extends Phaser.Scene {
         keyD = this.input.keyboard.addKey('D')
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
+        keyTAB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
 
         // collisions        
         const objects = map.createFromObjects('Spawns', {
@@ -111,7 +137,7 @@ class Map extends Phaser.Scene {
 
         // camera ignores
         this.cameras.main.ignore([this.frame, objects])
-        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources, this.ignoreArray])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources, this.ignoreArray, this.tutorialText])
     }
 
     update() {
@@ -135,7 +161,7 @@ class Map extends Phaser.Scene {
 
         // inventory
 
-        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+        if (Phaser.Input.Keyboard.JustDown(keyTAB)) {
             playerPosX = this.player.x
             playerPosY = this.player.y
             let textureManager = this.textures;
@@ -152,6 +178,14 @@ class Map extends Phaser.Scene {
                 textureManager.addImage('titlesnapshot', snapshotImage);
             });
             this.scene.start('inventoryScene')
+        }
+
+        // escape to menu
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+            playerPosX = this.player.x
+            playerPosY = this.player.y
+            this.sound.play('move_sfx')
+            this.scene.start('menuScene')
         }
     }
 }
