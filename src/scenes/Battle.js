@@ -28,6 +28,35 @@ class Battle extends Phaser.Scene {
         // create overlay
         this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0).depth = 1
 
+        // tutorial
+        let tutorialConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '32px',
+            backgroundColor: '#000000',
+            color: '#AAFFFF',
+            align: 'center',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+        if (tutorial == 3) {
+            tutorial = 4
+            let tutText1 = this.add.text(960, 208, 'Use A and D to scroll the viewport', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+            let tutText2 =this.add.text(960, 336, 'Use SPACE to summon the selected minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+            this.time.addEvent({
+                delay: 5000, 
+                callback: () => {
+                    tutText1.setAlpha(0)
+                    tutText2.setAlpha(0)
+                },
+                callbackScope:this,
+                loop: false
+            });
+        }
+
         // create tooltips
         let textConfig = {
             fontFamily: 'Seagram',
@@ -289,9 +318,11 @@ class Battle extends Phaser.Scene {
         if (!this.gameOver && this.angelBase.hp.value == 0) {
             this.add.image(480,272, 'defeat').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             this.gameOver = true;
+            lastWin = false;
         } else if (!this.gameOver && this.demonBase.hp.value == 0) {
             this.gameOver = true;
             this.add.image(480,272, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
+            lastWin = true
         } 
 
         // game over interactions

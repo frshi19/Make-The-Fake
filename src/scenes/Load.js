@@ -16,6 +16,7 @@ class Load extends Phaser.Scene {
         this.load.image('black_box', 'black_box.png')
         this.load.image('inventory', 'inventory.png')
         this.load.image('cursor', 'cursor.png')
+        this.load.image('red_arrow', 'red_arrow.png')
 
         // load battle images
         this.load.image('angelBaseImg', 'angelBaseImg.png')

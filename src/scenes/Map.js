@@ -86,10 +86,12 @@ class Map extends Phaser.Scene {
         }
 
         this.tutorialText
+        this.tutorialArrow
             
         if (tutorial == 0) {
             tutorial = 1
-            this.tutorialText = this.add.text(480, 272, 'Welcome To Heaven Vs. Hell\nCommand the armies of heaven against the forces of Satan.\n\nComplete battles and work your way towards the final boss\n\nPress TAB to select your roster and\nview information on minions you have discovered', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.tutorialText = this.add.text(480, 136, 'Welcome To Heaven Vs. Hell\nCommand the armies of heaven against the forces of Satan.\n\nComplete battles and work your way towards the final boss\n\nPress TAB to select your roster and\nview information on minions you have discovered', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.tutorialArrow = this.add.image(786, 155, 'red_arrow').setOrigin(0).setScrollFactor(0).setAlpha(0.75).setScale(0.75)
         } else if (tutorial == 2) { 
             tutorial = 3
             this.tutorialText = this.add.text(480, 136, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
@@ -121,17 +123,24 @@ class Map extends Phaser.Scene {
                 playerPosX = this.player.x
                 playerPosY = this.player.y
                 this.sound.play('select_sfx')
-                console.log(object.name)
                 if (object.name == 1) { // level 1
                     game.settings = {
                         spawnRate: 5000,
+                        enemies: ['Pyromancer'],
+                        exp: 4,
+                        coins: 200
+                    }
+                    lastBattle = '1'
+                    this.scene.start('battleScene')
+                }
+                else if (object.name == 2) { // level 2
+                    game.settings = {
+                        spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 4,
                         coins: 200
                     }
-                    this.scene.start('battleScene')
-                }
-                else if (object.name == 2) { // level 2
+                    lastBattle = '2'
                     this.scene.start('battleScene')
                 }
             }
@@ -139,7 +148,7 @@ class Map extends Phaser.Scene {
 
         // camera ignores
         this.cameras.main.ignore([this.frame, objects])
-        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources, this.ignoreArray, this.tutorialText])
+        this.miniMapCamera.ignore([ bgLayer, nodeLayer, this.overlay, this.resources, this.ignoreArray, this.tutorialText, this.tutorialArrow])
     }
 
     update() {

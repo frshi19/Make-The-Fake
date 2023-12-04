@@ -35,3 +35,7 @@ let playerPosY = 1920
 
 let roster = ['Swordsman']
 let MAXROSTERSIZE = 5
+
+let lastBattle = "2"
+let lastWin = false
+let wonBattles = []
