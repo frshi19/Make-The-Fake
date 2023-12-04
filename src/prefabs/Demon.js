@@ -10,7 +10,7 @@ class Demon extends Phaser.GameObjects.Sprite{
         this.modifier = modifier
         this.moveSpeed = moveSpeed;
         this.body.setGravity(0, 100)
-        this.hp = new HealthBar(scene, 200 - 32, 432 - 48);
+        this.hp = new HealthBar(scene, 200 - 32, 432 - 48, health);
     }
 
     update(){

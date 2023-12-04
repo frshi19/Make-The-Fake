@@ -9,7 +9,7 @@ class Battle extends Phaser.Scene {
 
         // create invisible player obj
         this.PLAYER_VEL = 500;
-        this.player = this.physics.add.image(960, 272, 'player').setOrigin(0.5)
+        this.player = this.physics.add.image(960, 272, 'player').setOrigin(0.5).setAlpha(0)
         this.player.body.setCollideWorldBounds(true)
 
         // set up main camera
@@ -62,7 +62,7 @@ class Battle extends Phaser.Scene {
         this.cursor.depth = 3
 
         // set up coin counter
-        let coinConfig = {
+        this.coinConfig = {
             fontFamily: 'Seagram',
             fontSize: '48px',
             backgroundColor: '#000000',
@@ -76,14 +76,14 @@ class Battle extends Phaser.Scene {
             },
         }
         if (coins < 10) {
-            this.resources = this.add.text(672, 48, '000' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(672, 48, '000' + coins, this.coinConfig).setScrollFactor(0)
         }
         else if (coins < 100) {
-            this.resources = this.add.text(672, 48, '00' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(672, 48, '00' + coins, this.coinConfig).setScrollFactor(0)
         }else if (coins < 1000) {
-            this.resources = this.add.text(672, 48, '0' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(672, 48, '0' + coins, this.coinConfig).setScrollFactor(0)
         }else{
-            this.resources = this.add.text(672, 48, coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(672, 48, coins, this.coinConfig).setScrollFactor(0)
         }
         this.resources.depth = 4
 
@@ -104,27 +104,84 @@ class Battle extends Phaser.Scene {
         
         // summon angel troops
         this.physics.add.overlap(this.cursor, this.rosterArray, (cursor, troop)=> {
-            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-                if (troop.name == 'Swordsman'){ 
-                    this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 100, 20, 'Swordsman', 200))
+            if (Phaser.Input.Keyboard.JustDown(keySPACE) && !this.gameOver) {
+                if (troop.name == 'Swordsman'){
+                    if (coins >= 120) {
+                        coins -= 120
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 600, 2, 'Swordsman', 150))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
+                    
                 }
                 else if (troop.name == 'Archer'){ 
-                    this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 100, 20, 'Archer', 200))
+                    if (coins >= 100) {
+                        coins -= 100
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 200, 2, 'Archer', 150))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
                 else if (troop.name == 'Shieldbearer'){ 
-                    this.angels.push(new Angel(this, 'Shieldbearer_icon', 'Shieldbearer', 100, 20, 'Shieldbearer', 200))
+                    if (coins >= 200) {
+                        coins -= 200
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Shieldbearer_icon', 'Shieldbearer', 800, 1, 'Shieldbearer', 150))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
                 else if (troop.name == 'Axeman'){ 
-                    this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 100, 20, 'Axeman', 200))
+                    if (coins >= 200) {
+                        coins -= 200
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 600, 3, 'Axeman', 225))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
                 else if (troop.name == 'Spearman'){ 
-                    this.angels.push(new Angel(this, 'Spearman_icon', 'Spearman', 100, 20, 'Spearman', 200))
+                    if (coins >= 300) {
+                        coins -= 300
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Spearman_icon', 'Spearman', 600, 3, 'Spearman', 75))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
                 else if (troop.name == 'Cavalry'){ 
-                    this.angels.push(new Angel(this, 'Cavalry_icon', 'Cavalry', 100, 20, 'Cavalry', 200))
+                    if (coins >= 400) {
+                        coins -= 400
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Cavalry_icon', 'Cavalry', 800, 4, 'Cavalry', 300))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
                 else if (troop.name == 'Archangel'){ 
-                    this.angels.push(new Angel(this, 'Archangel_icon', 'Archangel', 100, 20, 'Archangel', 200))
+                    if (coins >= 800) {
+                        coins -= 800
+                        this.sound.play('in_sfx')
+                        this.angels.push(new Angel(this, 'Archangel_icon', 'Archangel', 800, 4, 'Archangel', 75))
+                        this.updateCoins()
+                    } else {
+                        this.sound.play('err_sfx')
+                        console.log('play err anim')
+                    }
                 }
             }
         })
@@ -132,8 +189,10 @@ class Battle extends Phaser.Scene {
         this.summoner = this.time.addEvent({
             delay: this.game.settings.spawnRate, 
             callback: () => {
-                let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
-                this.demons.push(new Demon(this, game.settings.enemies[k] + '_icon', game.settings.enemies[k] , 100, 20, 'fix me later', 200))
+                if(!this.gameOver) {
+                    let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
+                    this.demons.push(new Demon(this, game.settings.enemies[k] + '_icon', game.settings.enemies[k] , 100, 1, 'fix me later', 200))
+                }
             },
             callbackScope:this,
             loop: true
@@ -143,9 +202,9 @@ class Battle extends Phaser.Scene {
         this.angelBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "angelBase")
         this.demonBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "demonBase")
         this.angelBase = this.physics.add.sprite(this.angelBaseSpawn.x, this.angelBaseSpawn.y, 'angelBaseImg').setImmovable(true)
-        this.angelBase.hp = new HealthBar(this, 200 + 24 - 2 , 432 - 192);
+        this.angelBase.hp = new HealthBar(this, 200 + 24 - 2 , 432 - 192, 1000);
         this.demonBase = this.physics.add.sprite(this.demonBaseSpawn.x, this.demonBaseSpawn.y, 'demonBaseImg').setImmovable(true)
-        this.demonBase.hp = new HealthBar(this, 1720 - 96 + 2, 432 - 192);
+        this.demonBase.hp = new HealthBar(this, 1720 - 96 + 2, 432 - 192, 1000);
 
         // create collisions for troops
         GroundLayer.setCollisionByProperty({
@@ -166,23 +225,13 @@ class Battle extends Phaser.Scene {
         
         // collision between troops
         this.physics.add.collider(this.angels, this.demons, (angel, demon)=> {
-            angel.hp.decrease(1)
-            demon.hp.decrease(1)
+            angel.hp.decrease(demon.damage)
+            demon.hp.decrease(angel.damage)
         })
 
     }
 
     update() {
-        // navigate battle roster
-        if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 192 - 2) {
-            this.sound.play('move_sfx')
-            this.cursor.x -= 80
-        }
-        if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 512 - 2) {
-            this.sound.play('move_sfx')
-            this.cursor.x += 80
-        }
-
         // player(camera) movement
         this.playerDirection = new Phaser.Math.Vector2(0)
         if(keyA.isDown) {
@@ -195,33 +244,74 @@ class Battle extends Phaser.Scene {
         this.playerDirection.normalize()
         this.player.setVelocity(this.PLAYER_VEL * this.playerDirection.x, this.PLAYER_VEL * this.playerDirection.y)
 
-        // update angels
-        for (let i = 0; i < this.angels.length; i++) {
-            this.angels[i].update()
-            if(this.angels[i].hp.value == 0) {
-                this.angels[i].hp.bar.destroy()
-                this.angels[i].destroy()
-                this.angels.splice(i, 1)
+        if (!this.gameOver) {
+            // navigate battle roster
+            if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 192 - 2) {
+                this.sound.play('move_sfx')
+                this.cursor.x -= 80
+            }
+            if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 512 - 2) {
+                this.sound.play('move_sfx')
+                this.cursor.x += 80
+            }
+
+            // update angels
+            for (let i = 0; i < this.angels.length; i++) {
+                this.angels[i].update()
+                if(this.angels[i].hp.value == 0) {
+                    this.angels[i].hp.bar.destroy()
+                    this.angels[i].destroy()
+                    this.angels.splice(i, 1)
+                }
+            }
+
+            // update demons
+            for (let i = 0; i < this.demons.length; i++) {
+                this.demons[i].update()
+                if(this.demons[i].hp.value == 0) {
+                    this.demons[i].hp.bar.destroy()
+                    this.demons[i].destroy()
+                    this.demons.splice(i, 1)
+                }
             }
         }
-
-        // update demons
-        for (let i = 0; i < this.demons.length; i++) {
-            this.demons[i].update()
-            if(this.demons[i].hp.value == 0) {
-                this.demons[i].hp.bar.destroy()
-                this.demons[i].destroy()
-                this.demons.splice(i, 1)
-            }
-        }
-
+        
         // check base health to see if game over
         if (!this.gameOver && this.angelBase.hp.value == 0) {
+            this.add.image(480,272, 'defeat').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             this.gameOver = true;
-            console.log('you lose')
         } else if (!this.gameOver && this.demonBase.hp.value == 0) {
             this.gameOver = true;
-            console.log('you win')
+            this.add.image(480,272, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
         } 
+
+        // game over interactions
+        if (this.gameOver) {
+            for (let i = 0; i < this.angels.length; i++) {
+                this.angels[i].body.setVelocity(0,0)
+            }
+
+            // update demons
+            for (let i = 0; i < this.demons.length; i++) {
+                this.demons[i].body.setVelocity(0,0)
+            }
+            if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+                this.scene.start('mapScene')
+            }
+        }
+    }
+
+    updateCoins() {
+        console.log('coins: ' + coins)
+        if (coins < 10) {
+            this.resources.setText('000' + coins, this.coinConfig).setScrollFactor(0)
+        }
+        else if (coins < 100) {
+            this.resources.setText('00' + coins, this.coinConfig).setScrollFactor(0)
+        }else if (coins < 1000) {
+            this.resources.setText('0' + coins, this.coinConfig).setScrollFactor(0)
+        }else{
+            this.resources.setText(coins, this.coinConfig).setScrollFactor(0)
+        }
     }
 }

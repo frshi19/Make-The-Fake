@@ -20,6 +20,8 @@ class Load extends Phaser.Scene {
         // load battle images
         this.load.image('angelBaseImg', 'angelBaseImg.png')
         this.load.image('demonBaseImg', 'demonBaseImg.png')
+        this.load.image('victory', 'victory_screen.png')
+        this.load.image('defeat', 'defeat_screen.png')
 
         // load angel icons
         this.load.image('Swordsman_icon', 'sword_icon.png')

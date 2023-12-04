@@ -49,7 +49,7 @@ class Map extends Phaser.Scene {
                 top: 4,
                 bottom: 4,
                 left: 7,
-                right: 7
+                right: 6
             },
         }
         if (coins < 10) {
