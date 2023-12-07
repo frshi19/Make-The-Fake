@@ -8,11 +8,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
-    width: 960,
-    height: 544,
+    width: 1440,
+    height: 816,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },

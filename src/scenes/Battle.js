@@ -8,12 +8,11 @@ class Battle extends Phaser.Scene {
         this.gameOver = false;
 
         // create invisible player obj
-        this.PLAYER_VEL = 500;
-        this.player = this.physics.add.image(960, 272, 'player').setOrigin(0.5).setAlpha(0)
+        this.PLAYER_VEL = 750;
+        this.player = this.physics.add.image(game.config.width, game.config.height/2, 'player').setOrigin(0.5).setAlpha(0)
         this.player.body.setCollideWorldBounds(true)
 
         // set up main camera
-        //this.cameras.main.setBounds(0, 0, 1920, 544).setZoom(1)
         this.cameras.main.setZoom(1)
         this.cameras.main.startFollow(this.player)
         this.cameras.main.flash(500, 255, 255, 0, true)
@@ -21,12 +20,11 @@ class Battle extends Phaser.Scene {
         // tilemap info
         const map2 = this.add.tilemap('tilemapJSON2')
         const tileset = map2.addTilesetImage('tileset', 'tilesetImage')
-        const GroundLayer = map2.createLayer('Ground', tileset, 0, 0)
-        const Sky = map2.createLayer('Sky', tileset, 0, 0)
-        const Sun = map2.createLayer('Sun and Clouds', tileset, 0, 0)
+        const bg = map2.createLayer('Background', tileset, 0, 0)
+        const fg = map2.createLayer('Foreground', tileset, 0, 0)
 
         // create overlay
-        this.add.image(0, 0, 'overlay2').setScrollFactor(0).setOrigin(0).depth = 1
+        this.add.image(game.config.width/2, game.config.height/2, 'overlay2').setScrollFactor(0).setOrigin(0.5).depth = 1
 
         // tutorial
         let tutorialConfig = {
@@ -60,25 +58,25 @@ class Battle extends Phaser.Scene {
         // create tooltips
         let textConfig = {
             fontFamily: 'Seagram',
-            fontSize: '48px',
+            fontSize: '72px',
             backgroundColor: '#000000',
             color: '#FFFFFF',
             align: 'center',
             padding: {
-                top: 4,
-                bottom: 4,
+                top: 6,
+                bottom: 7,
                 left: 12,
-                right: 8
+                right: 9
             },
-            fixedWidth: 64
+            fixedWidth: 96
         }
-        this.add.text(112,48, 'Q', textConfig).setOrigin(0,0).setScrollFactor(0)
-        this.add.text(592,48, 'E', textConfig).setOrigin(0,0).setScrollFactor(0)
+        this.add.text(168, 72, 'Q', textConfig).setOrigin(0,0).setScrollFactor(0)
+        this.add.text(888, 72, 'E', textConfig).setOrigin(0,0).setScrollFactor(0)
 
         // set up roster icons
         this.rosterArray = []
         for (let i = 0; i < roster.length; i++) {
-            this.rosterArray.push(this.physics.add.image(192 + (i * 80), 48, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
+            this.rosterArray.push(this.physics.add.image(288 + (i * 120), 72, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
         }
         // assign names
         for (let i = 0; i < roster.length; i++) {
@@ -93,31 +91,34 @@ class Battle extends Phaser.Scene {
         // set up coin counter
         this.coinConfig = {
             fontFamily: 'Seagram',
-            fontSize: '48px',
+            fontSize: '72px',
             backgroundColor: '#000000',
             color: '#3fAAA1',
             align: 'center',
             padding: {
-                top: 4,
-                bottom: 4,
-                left: 7,
-                right: 7
+                top: 6,
+                bottom: 7,
+                left: 12,
+                right: 9
             },
+            // fixedWidth: 200
         }
         if (coins < 10) {
-            this.resources = this.add.text(672, 48, '000' + coins, this.coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(1008, 72, '000' + coins, this.coinConfig).setScrollFactor(0)
         }
         else if (coins < 100) {
-            this.resources = this.add.text(672, 48, '00' + coins, this.coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(1008, 72, '00' + coins, this.coinConfig).setScrollFactor(0)
         }else if (coins < 1000) {
-            this.resources = this.add.text(672, 48, '0' + coins, this.coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(1008, 72, '0' + coins, this.coinConfig).setScrollFactor(0)
         }else{
-            this.resources = this.add.text(672, 48, coins, this.coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(1008, 72, coins, this.coinConfig).setScrollFactor(0)
         }
         this.resources.depth = 4
 
         // keyboard input
+        keyW = this.input.keyboard.addKey('W')
         keyA = this.input.keyboard.addKey('A')
+        keyS = this.input.keyboard.addKey('S')
         keyD = this.input.keyboard.addKey('D')
         keyQ = this.input.keyboard.addKey('Q')
         keyE = this.input.keyboard.addKey('E')
@@ -125,7 +126,19 @@ class Battle extends Phaser.Scene {
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
         // set physics world bounds (so collideWorldBounds works properly)
-        this.physics.world.bounds.setTo(0 + this.cameras.main.width / 2, 0, 1920 - this.cameras.main.width, 544)
+        this.physics.world.bounds.setTo((this.cameras.main.width / 2) - (this.player.width / 2), 0, 2880 - this.cameras.main.width + (this.player.width), 816)
+
+        
+        // create angel and demon bases
+        this.angelBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "angelBase")
+        this.demonBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "demonBase")
+        this.angelBase = this.physics.add.sprite(this.angelBaseSpawn.x, this.angelBaseSpawn.y, 'angelBaseImg').setImmovable(true).setScale(2)
+        this.angelBase.hp = new HealthBar(this, this.angelBaseSpawn.x - 128, this.angelBaseSpawn.y - 212, 1000, 256);
+        this.demonBase = this.physics.add.sprite(this.demonBaseSpawn.x, this.demonBaseSpawn.y, 'demonBaseImg').setImmovable(true).setScale(2)
+        this.demonBase.hp = new HealthBar(this, this.demonBaseSpawn.x - 128, this.demonBaseSpawn.y - 212, 1000, 256);
+
+        // create pointer to lanes
+        this.pointer = this.add.image(this.angelBase.x, this.angelBase.y, 'pointer')
 
         // prepare arrays for each army
         this.angels = []
@@ -138,7 +151,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 120) {
                         coins -= 120
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 600, 2, 'Swordsman', 150))
+                        this.angels.push(new Angel(this, 'Swordsman_icon', 'Swordsman', 600, 2, 'Swordsman', 150, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -150,7 +163,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 100) {
                         coins -= 100
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 200, 2, 'Archer', 150))
+                        this.angels.push(new Angel(this, 'Archer_icon', 'Archer', 200, 2, 'Archer', 150, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -161,7 +174,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 200) {
                         coins -= 200
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Shieldbearer_icon', 'Shieldbearer', 800, 1, 'Shieldbearer', 150))
+                        this.angels.push(new Angel(this, 'Shieldbearer_icon', 'Shieldbearer', 800, 1, 'Shieldbearer', 150, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -172,7 +185,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 200) {
                         coins -= 200
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 600, 3, 'Axeman', 225))
+                        this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 600, 3, 'Axeman', 225, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -183,7 +196,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 300) {
                         coins -= 300
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Spearman_icon', 'Spearman', 600, 3, 'Spearman', 75))
+                        this.angels.push(new Angel(this, 'Spearman_icon', 'Spearman', 600, 3, 'Spearman', 75, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -194,7 +207,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 400) {
                         coins -= 400
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Cavalry_icon', 'Cavalry', 800, 4, 'Cavalry', 300))
+                        this.angels.push(new Angel(this, 'Cavalry_icon', 'Cavalry', 800, 4, 'Cavalry', 300, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -205,7 +218,7 @@ class Battle extends Phaser.Scene {
                     if (coins >= 800) {
                         coins -= 800
                         this.sound.play('in_sfx')
-                        this.angels.push(new Angel(this, 'Archangel_icon', 'Archangel', 800, 4, 'Archangel', 75))
+                        this.angels.push(new Angel(this, 'Archangel_icon', 'Archangel', 800, 4, 'Archangel', 75, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
@@ -222,32 +235,15 @@ class Battle extends Phaser.Scene {
                     let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
                     console.log()
                     if (this.game.settings.enemies[k] == 'Warrior') {
-                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120))
+                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120, this.demonBase.x, 480))
                     } else if (this.game.settings.enemies[k] == 'Pyromancer') {
-                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100))
+                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100, this.demonBase.x, 480))
                     }
                 }
             },
             callbackScope:this,
             loop: true
         });
-
-        // create angel and demon bases
-        this.angelBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "angelBase")
-        this.demonBaseSpawn = map2.findObject('BaseObjs', obj => obj.name === "demonBase")
-        this.angelBase = this.physics.add.sprite(this.angelBaseSpawn.x, this.angelBaseSpawn.y, 'angelBaseImg').setImmovable(true)
-        this.angelBase.hp = new HealthBar(this, 200 + 24 - 2 , 432 - 192, 1000);
-        this.demonBase = this.physics.add.sprite(this.demonBaseSpawn.x, this.demonBaseSpawn.y, 'demonBaseImg').setImmovable(true)
-        this.demonBase.hp = new HealthBar(this, 1720 - 96 + 2, 432 - 192, 1000);
-
-        // create collisions for troops
-        GroundLayer.setCollisionByProperty({
-            collides: true
-        })
-
-        // collision with ground because theres gravity for some reason
-        this.physics.add.collider(this.angels, GroundLayer)
-        this.physics.add.collider(this.demons, GroundLayer)
 
         // collision between troop and base
         this.physics.add.collider(this.demons, this.angelBase, (demon, base)=> {
@@ -280,13 +276,23 @@ class Battle extends Phaser.Scene {
 
         if (!this.gameOver) {
             // navigate battle roster
-            if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 192 - 2) {
+            if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 288 - 2) {
                 this.sound.play('move_sfx')
-                this.cursor.x -= 80
+                this.cursor.x -= 120
             }
-            if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 512 - 2) {
+            if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 768 - 2) {
                 this.sound.play('move_sfx')
-                this.cursor.x += 80
+                this.cursor.x += 120
+            }
+
+            // navigate lanes
+            if (Phaser.Input.Keyboard.JustDown(keyW) && this.pointer.y != this.angelBase.y - 160) {
+                this.sound.play('move_sfx')
+                this.pointer.y -= 160
+            }
+            if (Phaser.Input.Keyboard.JustDown(keyS) && this.pointer.y != this.angelBase.y + 160) {
+                this.sound.play('move_sfx')
+                this.pointer.y += 160
             }
 
             // update angels
@@ -316,12 +322,12 @@ class Battle extends Phaser.Scene {
         
         // check base health to see if game over
         if (!this.gameOver && this.angelBase.hp.value == 0) {
-            this.add.image(480,272, 'defeat').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
+            this.add.image(game.config.width/2 ,game.config.height/2, 'defeat').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             this.gameOver = true;
             lastWin = false;
         } else if (!this.gameOver && this.demonBase.hp.value == 0) {
             this.gameOver = true;
-            this.add.image(480,272, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
+            this.add.image(game.config.width/2 ,game.config.height/2, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             lastWin = true
         } 
 

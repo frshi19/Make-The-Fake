@@ -22,58 +22,58 @@ class Inventory extends Phaser.Scene {
         const troops = [];
 
         // create slot objects
-        this.sword = this.physics.add.image(176, 112, 'Swordsman_icon').setOrigin(0,0)
+        this.sword = this.physics.add.image(264, 168, 'Swordsman_icon').setOrigin(0,0)
         this.sword.name = 'Swordsman'
         troops.push(this.sword)
 
-        this.archer = this.physics.add.image(256, 112, 'Archer_icon').setOrigin(0,0)
+        this.archer = this.physics.add.image(384, 168, 'Archer_icon').setOrigin(0,0)
         this.archer.name = 'Archer'
         troops.push(this.archer)
 
-        this.shield = this.physics.add.image(416, 112, 'Shieldbearer_icon').setOrigin(0,0)
+        this.shield = this.physics.add.image(624, 168, 'Shieldbearer_icon').setOrigin(0,0)
         this.shield.name = 'Shieldbearer'
         troops.push(this.shield)
 
-        this.axe = this.physics.add.image(336, 112, 'Axeman_icon').setOrigin(0,0)
+        this.axe = this.physics.add.image(504, 168, 'Axeman_icon').setOrigin(0,0)
         this.axe.name = 'Axeman'
         troops.push(this.axe)
 
-        this.spearman = this.physics.add.image(176, 192, 'Spearman_icon').setOrigin(0,0)
+        this.spearman = this.physics.add.image(264, 288, 'Spearman_icon').setOrigin(0,0)
         this.spearman.name = 'Spearman'
         troops.push(this.spearman)
 
-        this.cavalry = this.physics.add.image(256, 192, 'Cavalry_icon').setOrigin(0,0)
+        this.cavalry = this.physics.add.image(384, 288, 'Cavalry_icon').setOrigin(0,0)
         this.cavalry.name = 'Cavalry'
         troops.push(this.cavalry)
 
         
-        this.archangel = this.physics.add.image(336, 192, 'Archangel_icon').setOrigin(0,0)
+        this.archangel = this.physics.add.image(504, 288, 'Archangel_icon').setOrigin(0,0)
         this.archangel.name = 'Archangel'
         troops.push(this.archangel)
 
-        this.god = this.physics.add.image(416, 192, 'God_icon').setOrigin(0,0)
+        this.god = this.physics.add.image(624, 288, 'God_icon').setOrigin(0,0)
         this.god.name = 'God'
         troops.push(this.god)
         
-        this.mystery = this.physics.add.image(416, 192, 'God_icon').setOrigin(0,0)
+        this.mystery = this.physics.add.image(624, 288, 'God_icon').setOrigin(0,0)
 
         // demon icons
-        this.warrior = this.physics.add.image(496, 112, 'Warrior_icon').setOrigin(0,0)
-        this.pyromancer = this.physics.add.image(576, 112, 'Pyromancer_icon').setOrigin(0,0)
-        this.hound = this.physics.add.image(656, 112, 'Hound_icon').setOrigin(0,0)
-        this.knight = this.physics.add.image(496, 192, 'BK_icon').setOrigin(0,0)
-        this.spearman = this.physics.add.image(576, 192, 'Speardemon_icon').setOrigin(0,0)
-        this.soulripper = this.physics.add.image(656, 192, 'Soulripper_icon').setOrigin(0,0)
-        this.dragon = this.physics.add.image(576, 272, 'BD_icon').setOrigin(0,0)
-        this.satan = this.physics.add.image(656, 272, 'Satan_icon').setOrigin(0,0)
+        this.warrior = this.physics.add.image(744, 168, 'Warrior_icon').setOrigin(0,0)
+        this.pyromancer = this.physics.add.image(864, 168, 'Pyromancer_icon').setOrigin(0,0)
+        this.hound = this.physics.add.image(984, 168, 'Hound_icon').setOrigin(0,0)
+        this.knight = this.physics.add.image(744, 288, 'BK_icon').setOrigin(0,0)
+        this.spearman = this.physics.add.image(864, 288, 'Speardemon_icon').setOrigin(0,0)
+        this.soulripper = this.physics.add.image(984, 288, 'Soulripper_icon').setOrigin(0,0)
+        this.dragon = this.physics.add.image(864, 408, 'BD_icon').setOrigin(0,0)
+        this.satan = this.physics.add.image(984, 408, 'Satan_icon').setOrigin(0,0)
 
         // temp icons for prototype
-        this.add.image(656, 112, 'God_icon').setOrigin(0,0)
-        this.add.image(496, 192, 'God_icon').setOrigin(0,0)
-        this.add.image(576, 192, 'God_icon').setOrigin(0,0)
-        this.add.image(656, 192, 'God_icon').setOrigin(0,0)
-        this.add.image(576, 272, 'God_icon').setOrigin(0,0)
-        this.add.image(656, 272, 'God_icon').setOrigin(0,0)
+        // this.add.image(984, 168, 'God_icon').setOrigin(0,0)
+        // this.add.image(744, 288, 'God_icon').setOrigin(0,0)
+        // this.add.image(864, 288, 'God_icon').setOrigin(0,0)
+        // this.add.image(984, 288, 'God_icon').setOrigin(0,0)
+        // this.add.image(864, 408, 'God_icon').setOrigin(0,0)
+        // this.add.image(984, 408, 'God_icon').setOrigin(0,0)
 
         // create player cursor object
         this.cursor = this.physics.add.image(this.sword.x - 2, this.sword.y - 2, 'cursor').setOrigin(0,0)
@@ -95,7 +95,7 @@ class Inventory extends Phaser.Scene {
         if (tutorial == 1) {
             tutorial = 2
             this.tutorialText = this.add.text(480, 64, 'Use WASD to move your cursor around\nPress SPACE to select or deselect a minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
-            this.add.text(760, 376, 'No lvl resritions for prototype\nPress TAB again to exit', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.add.text(1140, 564, 'Press TAB again to exit', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
         }
 
         // keyboard defs
@@ -111,7 +111,7 @@ class Inventory extends Phaser.Scene {
         this.physics.add.overlap(this.cursor, troops, (cursor, troop)=> {
             if (this.infoFlag) {
                 this.sound.play('move_sfx')
-                this.add.image(160, 272, troop.name + '_info').setOrigin(0,0)
+                this.add.image(240, 408, troop.name + '_info').setOrigin(0,0)
                 this.infoFlag = false;
             }
             if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
@@ -232,11 +232,11 @@ class Inventory extends Phaser.Scene {
 
         // create empty roster objects
         this.slots = []
-        this.slot0 = this.add.image(112, 464, 'black_box').setOrigin(0,0)
-        this.slot1 = this.add.image(192, 464, 'black_box').setOrigin(0,0)
-        this.slot2 = this.add.image(272, 464, 'black_box').setOrigin(0,0)
-        this.slot3 = this.add.image(352, 464, 'black_box').setOrigin(0,0)
-        this.slot4 = this.add.image(432, 464, 'black_box').setOrigin(0,0)
+        this.slot0 = this.add.image(168, 696, 'black_box').setOrigin(0,0)
+        this.slot1 = this.add.image(288, 696, 'black_box').setOrigin(0,0)
+        this.slot2 = this.add.image(408, 696, 'black_box').setOrigin(0,0)
+        this.slot3 = this.add.image(528, 696, 'black_box').setOrigin(0,0)
+        this.slot4 = this.add.image(648, 696, 'black_box').setOrigin(0,0)
         this.slots.push(this.slot0)
         this.slots.push(this.slot1)
         this.slots.push(this.slot2)
@@ -248,20 +248,20 @@ class Inventory extends Phaser.Scene {
 
     update() {
         // navigate inventory
-        if (Phaser.Input.Keyboard.JustDown(keyW) && this.cursor.y != 112 - 2) {
-            this.cursor.y -= 80
+        if (Phaser.Input.Keyboard.JustDown(keyW) && this.cursor.y != 168 - 2) {
+            this.cursor.y -= 120
             this.infoFlag = true
         }
-        if (Phaser.Input.Keyboard.JustDown(keyA) && this.cursor.x != 176 - 2) {
-            this.cursor.x -= 80
+        if (Phaser.Input.Keyboard.JustDown(keyA) && this.cursor.x != 264 - 2) {
+            this.cursor.x -= 120
             this.infoFlag = true
         }
-        if (Phaser.Input.Keyboard.JustDown(keyS) && this.cursor.y != 192 - 2) {
-            this.cursor.y += 80
+        if (Phaser.Input.Keyboard.JustDown(keyS) && this.cursor.y != 288 - 2) {
+            this.cursor.y += 120
             this.infoFlag = true
         }
-        if (Phaser.Input.Keyboard.JustDown(keyD) && this.cursor.x != 416 - 2) {
-            this.cursor.x += 80
+        if (Phaser.Input.Keyboard.JustDown(keyD) && this.cursor.x != 624 - 2) {
+            this.cursor.x += 120
             this.infoFlag = true
         }
         // return to map view

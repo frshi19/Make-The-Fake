@@ -35,45 +35,46 @@ class Map extends Phaser.Scene {
         // set up roster icons
         this.ignoreArray = []
         for (let i = 0; i < roster.length; i++) {
-            this.ignoreArray.push(this.add.image(112 + (i * 80), 464, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
+            this.ignoreArray.push(this.add.image(168 + (i * 120), 696, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
         }
 
         // set up coin counter
         let coinConfig = {
             fontFamily: 'Seagram',
-            fontSize: '48px',
+            fontSize: '72px',
             backgroundColor: '#000000',
             color: '#3fAAA1',
             align: 'center',
             padding: {
-                top: 4,
-                bottom: 4,
-                left: 7,
-                right: 6
+                top: 6,
+                bottom: 7,
+                left: 12,
+                right: 9
             },
+            // fixedWidth: 200
         }
         if (coins < 10) {
-            this.resources = this.add.text(512, 464, '000' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(768, 696, '000' + coins, coinConfig).setScrollFactor(0)
         }
         else if (coins < 100) {
-            this.resources = this.add.text(512, 464, '00' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(768, 696, '00' + coins, coinConfig).setScrollFactor(0)
         }else if (coins < 1000) {
-            this.resources = this.add.text(512, 464, '0' + coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(768, 696, '0' + coins, coinConfig).setScrollFactor(0)
         }else{
-            this.resources = this.add.text(512, 464, coins, coinConfig).setScrollFactor(0)
+            this.resources = this.add.text(768, 696, coins, coinConfig).setScrollFactor(0)
         }
 
         // set up mini map
-        this.miniMapCamera = this.cameras.add(672, 352, 176, 176).setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(0.073)
+        this.miniMapCamera = this.cameras.add(1008, 528, 264, 264).setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(0.1095)
         this.miniMapCamera.startFollow(this.player, false, 0.4, 0.4)
 
         // set physics world bounds (so collideWorldBounds works properly)
-        this.physics.world.bounds.setTo(960/8, 544/4, map.widthInPixels - this.game.config.width/4, map.heightInPixels - this.game.config.height/2)
+        this.physics.world.bounds.setTo(game.config.width/8, game.config.height/4, map.widthInPixels - this.game.config.width/4, map.heightInPixels - this.game.config.height/2)
 
         // tutorial text
         let tutorialConfig = {
             fontFamily: 'Seagram',
-            fontSize: '32px',
+            fontSize: '48px',
             backgroundColor: '#000000',
             color: '#AAFFFF',
             align: 'center',
@@ -90,11 +91,11 @@ class Map extends Phaser.Scene {
             
         if (tutorial == 0) {
             tutorial = 1
-            this.tutorialText = this.add.text(480, 136, 'Welcome To Heaven Vs. Hell\nCommand the armies of heaven against the forces of Satan.\n\nComplete battles and work your way towards the final boss\n\nPress TAB to select your roster and\nview information on minions you have discovered', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
-            this.tutorialArrow = this.add.image(786, 155, 'red_arrow').setOrigin(0).setScrollFactor(0).setAlpha(0.75).setScale(0.75)
+            this.tutorialText = this.add.text(720, 204, 'Welcome To Heaven Vs. Hell\nCommand the armies of heaven against the forces of Satan.\n\nComplete battles and work your way towards the final boss\n\nPress TAB to select your roster and\nview information on minions you have discovered', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.tutorialArrow = this.add.image(1179, 233, 'red_arrow').setOrigin(0).setScrollFactor(0).setAlpha(0.75).setScale(0.75)
         } else if (tutorial == 2) { 
             tutorial = 3
-            this.tutorialText = this.add.text(480, 136, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.tutorialText = this.add.text(720, 204, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
         }
 
         // set up keyboard input

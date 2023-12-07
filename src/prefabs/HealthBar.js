@@ -1,11 +1,12 @@
 // health bar prefab
 class HealthBar{
-    constructor(scene, x, y, maxHealth) {
+    constructor(scene, x, y, maxHealth, size) {
         this.bar = new Phaser.GameObjects.Graphics(scene);
         this.x = x;
         this.y = y;
         this.value = maxHealth;
-        this.p = 64 / maxHealth;
+        this.p = size / maxHealth;
+        this.size  =size
 
         this.draw();
 
@@ -30,12 +31,12 @@ class HealthBar{
 
         //  BG
         this.bar.fillStyle(0x000000);
-        this.bar.fillRect(this.x, this.y, 68, 16);
+        this.bar.fillRect(this.x, this.y, this.size + 4, 16);
 
         //  Health
 
         this.bar.fillStyle(0xffffff);
-        this.bar.fillRect(this.x + 2, this.y + 2, 64, 12);
+        this.bar.fillRect(this.x + 2, this.y + 2, this.size, 12);
 
         if (this.value < .3 * this.maxHealth)
         {
@@ -53,7 +54,7 @@ class HealthBar{
 
     update(x, y) {
         this.x = x - 32;
-        this.y = y - 48;
+        this.y = y - 72;
         this.draw();
     }
 }
