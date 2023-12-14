@@ -18,7 +18,7 @@ class Menu extends Phaser.Scene {
                 right: 5
             },
         }
-        this.add.text(game.config.width/2, game.config.height/4, 'Heaven Vs. Hell (PROTOTYPE)', this.menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/4, 'Heaven Vs. Hell', this.menuConfig).setOrigin(0.5)
 
         this.add.text(game.config.width/2, game.config.height/2, 'Press Space to Start', this.menuConfig).setOrigin(0.5)
 

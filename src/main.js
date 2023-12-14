@@ -28,7 +28,7 @@ let keySPACE, keyW, keyA, keyS, keyD, keyQ, keyE, keyESC, keyTAB
 let tutorial = 0
 
 let coins = 500
-let level = 1
+let level = 0
 
 let playerPosX = 480
 let playerPosY = 1920

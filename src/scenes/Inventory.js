@@ -67,13 +67,21 @@ class Inventory extends Phaser.Scene {
         this.dragon = this.physics.add.image(864, 408, 'BD_icon').setOrigin(0,0)
         this.satan = this.physics.add.image(984, 408, 'Satan_icon').setOrigin(0,0)
 
-        // temp icons for prototype
-        // this.add.image(984, 168, 'God_icon').setOrigin(0,0)
-        // this.add.image(744, 288, 'God_icon').setOrigin(0,0)
-        // this.add.image(864, 288, 'God_icon').setOrigin(0,0)
-        // this.add.image(984, 288, 'God_icon').setOrigin(0,0)
-        // this.add.image(864, 408, 'God_icon').setOrigin(0,0)
-        // this.add.image(984, 408, 'God_icon').setOrigin(0,0)
+        // create level display
+        let lvlConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '72px',
+            backgroundColor: '#000000',
+            color: '#3fAAA1',
+            align: 'center',
+            padding: {
+                top: 6,
+                bottom: 7,
+                left: 12,
+                right: 9
+            },
+        }
+        //this.level = this.add.text(768, 696, '000' + coins, coinConfig).setScrollFactor(0)
 
         // create player cursor object
         this.cursor = this.physics.add.image(this.sword.x - 2, this.sword.y - 2, 'cursor').setOrigin(0,0)

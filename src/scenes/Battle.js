@@ -4,6 +4,11 @@ class Battle extends Phaser.Scene {
     }
 
     create() {
+        // coins info
+        if (coins < 500) {
+            coins = 500;
+        }
+
         // create game over flag
         this.gameOver = false;
 
@@ -321,14 +326,15 @@ class Battle extends Phaser.Scene {
         }
         
         // check base health to see if game over
-        if (!this.gameOver && this.angelBase.hp.value == 0) {
+        if (!this.gameOver && this.angelBase.hp.value == 0) { // lose
             this.add.image(game.config.width/2 ,game.config.height/2, 'defeat').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             this.gameOver = true;
             lastWin = false;
-        } else if (!this.gameOver && this.demonBase.hp.value == 0) {
+        } else if (!this.gameOver && this.demonBase.hp.value == 0) { // win
             this.gameOver = true;
             this.add.image(game.config.width/2 ,game.config.height/2, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             lastWin = true
+            coins += this.game.settings.coins
         } 
 
         // game over interactions
