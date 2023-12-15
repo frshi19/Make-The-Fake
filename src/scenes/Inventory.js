@@ -214,7 +214,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Archer'){ 
@@ -228,7 +227,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 } 
                 else if (troop.name == 'Shieldbearer'){ 
@@ -242,7 +240,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
@@ -256,7 +253,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Spearman'){ 
@@ -270,7 +266,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Cavalry'){ 
@@ -284,7 +279,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
@@ -298,7 +292,6 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
                 }
                 else if (troop.name == 'God'){ 
@@ -312,8 +305,9 @@ class Inventory extends Phaser.Scene {
                         this.updateRoster()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log("play err anim")
                     }
+                }else if (troop.name == 'lock'){ 
+                    this.sound.play('err_sfx')
                 }
             }
         })

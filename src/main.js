@@ -1,3 +1,16 @@
+// Major Phaser Components Used:
+// 1. Cameras
+// 2. Arcade Physics
+// 3. Timers
+// 4. Text Objects
+// 5. Tilemap
+// 6. Tween Manager
+// 
+// Tilt:
+// I spent a lot of time on the inventory scene, more than what was required to make the game feel better.
+
+
+
 'use strict'
 
 let config = {
@@ -16,7 +29,7 @@ let config = {
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [ Load, Menu, Credits, Inventory, Map, Battle ]
+    scene: [ Load, Menu, Credits, Inventory, Map, Battle, Victory ]
 }
 
 let game = new Phaser.Game(config);

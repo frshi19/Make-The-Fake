@@ -90,7 +90,7 @@ class Battle extends Phaser.Scene {
 
 
             this.time.addEvent({
-                delay: 20000, 
+                delay: 30000, 
                 callback: () => {
                     tutText1.setAlpha(0)
                     tutText2.setAlpha(0)
@@ -191,7 +191,48 @@ class Battle extends Phaser.Scene {
         this.demons = []
         
         // summon angel troops
+        this.infoFlag = true
+        let costConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '48px',
+            backgroundColor: '#000000',
+            color: '#FFFFFF',
+            align: 'Left',
+            padding: {
+                top: 4,
+                bottom: 4,
+                left: 7,
+                right: 7
+            },
+        }
+        this.costText = this.add.text(168, game.config.height - 88, 'Cost: ',costConfig).setScrollFactor(0).setOrigin(0,0).setDepth(101)
         this.physics.add.overlap(this.cursor, this.rosterArray, (cursor, troop)=> {
+            if (this.infoFlag) {
+                if (troop.name == 'Swordsman'){
+                    this.costText.setText('Cost: 120')
+                }
+                else if (troop.name == 'Archer'){ 
+                    this.costText.setText('Cost: 100')
+                }
+                else if (troop.name == 'Shieldbearer'){ 
+                    this.costText.setText('Cost: 200')   
+                }
+                else if (troop.name == 'Axeman'){ 
+                    this.costText.setText('Cost: 250')
+                }
+                else if (troop.name == 'Spearman'){ 
+                    this.costText.setText('Cost: 300')
+                }
+                else if (troop.name == 'Cavalry'){ 
+                    this.costText.setText('Cost: 400')
+                }
+                else if (troop.name == 'Archangel'){ 
+                    this.costText.setText('Cost: 800')
+                } else {
+                    this.costText.setText('Cost:')
+                }
+                this.infoFlag = false;
+            }
             if (Phaser.Input.Keyboard.JustDown(keySPACE) && !this.gameOver) {
                 if (troop.name == 'Swordsman'){
                     if (coins >= 120) {
@@ -201,7 +242,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                     
                 }
@@ -213,7 +253,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
                 else if (troop.name == 'Shieldbearer'){ 
@@ -224,7 +263,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
@@ -235,7 +273,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
                 else if (troop.name == 'Spearman'){ 
@@ -246,7 +283,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
                 else if (troop.name == 'Cavalry'){ 
@@ -257,7 +293,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
@@ -268,7 +303,6 @@ class Battle extends Phaser.Scene {
                         this.updateCoins()
                     } else {
                         this.sound.play('err_sfx')
-                        console.log('play err anim')
                     }
                 }
             }
@@ -304,7 +338,7 @@ class Battle extends Phaser.Scene {
 
         // summon satan on level 7
         if (this.game.settings.coins == 666) {
-            this.demons.push(new Demon(this, 'Satan_icon', 'Satan' , 4000, 4, 'Satan', 75, 200, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
+            this.demons.push(new Demon(this, 'Satan_icon', 'Satan' , 4000, 4, 'Satan', 75, 200, this.demonBase.x, this.demonBase.y))
         }
 
         // collision between troop and base
@@ -339,10 +373,12 @@ class Battle extends Phaser.Scene {
         if (!this.gameOver) {
             // navigate battle roster
             if (Phaser.Input.Keyboard.JustDown(keyQ) && this.cursor.x != 288 - 2) {
+                this.infoFlag = true
                 this.sound.play('move_sfx')
                 this.cursor.x -= 120
             }
             if (Phaser.Input.Keyboard.JustDown(keyE) && this.cursor.x != 768 - 2) {
+                this.infoFlag = true
                 this.sound.play('move_sfx')
                 this.cursor.x += 120
             }

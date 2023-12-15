@@ -13,6 +13,11 @@ class Map extends Phaser.Scene {
             wonBattles.push(lastBattle)
         }
 
+        // check if game is won
+        if (lastWin && lastBattle == '7') {
+            this.scene.start('victoryScene')
+        }
+
         // tilemap info
         const map = this.add.tilemap('tilemapJSON')
         const tileset = map.addTilesetImage('tileset', 'tilesetImage')
@@ -104,10 +109,11 @@ class Map extends Phaser.Scene {
             this.tutorialText = this.add.text(720, 204, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
         } else if (tutorial == 4) { 
             tutorial = 5
+            this.tutorialText = this.add.text(720, 204, 'Congratualtions! Press Tab to view your new Minion', tutorialConfig).setOrigin(0.5).setAlpha(0).setScrollFactor(0).setDepth(6)
             this.time.addEvent({
                 delay: 2600, 
                 callback: () => {
-                    this.tutorialText = this.add.text(720, 204, 'Congratualtions! Press Tab to view your new Minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
+                    this.tutorialText.setAlpha(0.75)
                 },
                 callbackScope:this,
                 loop: false
@@ -181,7 +187,7 @@ class Map extends Phaser.Scene {
                         exp: 10,
                         coins: 600
                     }
-                    lastBattle = '2'
+                    lastBattle = '3'
                     this.scene.start('battleScene')
                 }
                 else if (object.name == 4 && level == 30) { // level 4
@@ -191,7 +197,7 @@ class Map extends Phaser.Scene {
                         exp: 10,
                         coins: 800
                     }
-                    lastBattle = '2'
+                    lastBattle = '4'
                     this.scene.start('battleScene')
                 }
                 else if (object.name == 5 && level == 40) { // level 5
@@ -201,7 +207,7 @@ class Map extends Phaser.Scene {
                         exp: 10,
                         coins: 1000
                     }
-                    lastBattle = '2'
+                    lastBattle = '5'
                     this.scene.start('battleScene')
                 }
                 else if (object.name == 6 && level == 50) { // level 6
@@ -211,17 +217,17 @@ class Map extends Phaser.Scene {
                         exp: 10,
                         coins: 1200
                     }
-                    lastBattle = '2'
+                    lastBattle = '6'
                     this.scene.start('battleScene')
                 }
                 else if (object.name == 7 && level == 60) { // level 7
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer', 'Dragon', 'Speardemon', 'BK', 'Soulripper', 'Hound'],
-                        exp: 0,
+                        exp: 9,
                         coins: 666
                     }
-                    lastBattle = '2'
+                    lastBattle = '7'
                     this.scene.start('battleScene')
                 }
             }

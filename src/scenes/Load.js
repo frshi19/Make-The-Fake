@@ -4,8 +4,13 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
-        // load map images
         this.load.path = 'assets/'
+
+        // load title image
+        this.load.image('title', 'title.png')
+
+
+        // load map images
         this.load.image('map', 'map.png')
         this.load.image('player', 'player.png')
         this.load.image('overlay', 'map_overlay.png')
@@ -21,6 +26,7 @@ class Load extends Phaser.Scene {
         this.load.image('light_seal', 'light_seal.png')
         this.load.image('lock', 'lock.png')
         this.load.image('what', 'question_mark.png')
+        this.load.image('victoryScreen', 'vicscreen.png')
 
         // load battle images
         this.load.image('angelBaseImg', 'angelBaseImg.png')
