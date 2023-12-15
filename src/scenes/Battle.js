@@ -25,11 +25,6 @@ class Battle extends Phaser.Scene {
             loop: true
         });
 
-        //check for tutorial value
-        if (tutorial == 5) {
-            tutorial = 4
-        }
-
         // discover demons in this level
         for (let i = 0; i < this.game.settings.enemies.length; i++) {
             if (this.game.settings.enemies[i] == 'Warrior') {

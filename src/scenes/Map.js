@@ -119,7 +119,8 @@ class Map extends Phaser.Scene {
                 loop: false
             })
         } else if (tutorial == 5) { 
-            this.tutorialText = this.add.text(720, 204, 'Head on to the next battle\nPress T to disable future Tutorials', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
+            tutorial = 6
+            this.tutorialText = this.add.text(720, 204, 'Head on to the next battle', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
         }
 
         // set up keyboard input
