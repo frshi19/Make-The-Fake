@@ -24,12 +24,25 @@ class Menu extends Phaser.Scene {
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G)
+        keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.sound.play('move_sfx')
             this.scene.start('mapScene')
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyG)) {
+            coins = 9999
+            this.sound.play('move_sfx')
+            this.scene.start('mapScene')
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyC)) {
+            this.sound.play('move_sfx')
+            this.scene.start('creditsScene')
         }
     }
 }

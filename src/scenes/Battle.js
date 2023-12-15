@@ -4,9 +4,30 @@ class Battle extends Phaser.Scene {
     }
 
     create() {
+        // create game over flag
+        this.gameOver = false;
+
         // coins info
         if (coins < 500) {
             coins = 500;
+        }
+
+        // add passive income
+        this.time.addEvent({
+            delay: 1000, 
+            callback: () => {
+                if (!this.gameOver)  {
+                    coins += 10
+                    this.updateCoins()
+                }
+            },
+            callbackScope:this,
+            loop: true
+        });
+
+        //check for tutorial value
+        if (tutorial == 5) {
+            tutorial = 4
         }
 
         // discover demons in this level
@@ -27,9 +48,6 @@ class Battle extends Phaser.Scene {
                 dragonDisc = true
             }
         }
-
-        // create game over flag
-        this.gameOver = false;
 
         // create invisible player obj
         this.PLAYER_VEL = 750;
@@ -65,7 +83,7 @@ class Battle extends Phaser.Scene {
             },
         }
         if (tutorial == 3) {
-            tutorial = 4
+            tutorial = -1
             let tutText1 = this.add.text(1440, 250, 'Use A and D to scroll the viewport', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
             let tutText2 = this.add.text(1440, 400, 'Use W and S to switch lanes', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
             let tutText3 = this.add.text(1440, 550, 'Use SPACE to summon the selected minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
@@ -210,8 +228,8 @@ class Battle extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
-                    if (coins >= 200) {
-                        coins -= 200
+                    if (coins >= 250) {
+                        coins -= 250
                         this.sound.play('in_sfx')
                         this.angels.push(new Angel(this, 'Axeman_icon', 'Axeman', 600, 3, 'Axeman', 225, this.angelBase.x, this.pointer.y))
                         this.updateCoins()
@@ -264,25 +282,30 @@ class Battle extends Phaser.Scene {
                     let n = Phaser.Math.Between(0, 2)
                     
                     if (this.game.settings.enemies[k] == 'Warrior') {
-                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
+                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 60, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Pyromancer') {
-                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
+                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 50, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'BK') {
-                        this.demons.push(new Demon(this, 'BK_icon', 'BK' , 200, 2, 'BK', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'BK_icon', 'BK' , 800, 1, 'BK', 150, 100, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Soulripper') {
-                        this.demons.push(new Demon(this, 'Soulripper_icon', 'Soulripper' , 200, 2, 'Soulripper', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Soulripper_icon', 'Soulripper' , 600, 3, 'Soulripper', 225, 100, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Speardemon') {
-                        this.demons.push(new Demon(this, 'Speardemon_icon', 'Speardemon' , 200, 2, 'Speardemon', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Speardemon_icon', 'Speardemon' , 600, 3, 'Speardemon', 75, 150, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Hound') {
-                        this.demons.push(new Demon(this, 'Hound_icon', 'Hound' , 200, 2, 'Hound', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Hound_icon', 'Hound' , 800, 4, 'Hound', 300, 200, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Dragon') {
-                        this.demons.push(new Demon(this, 'Dragon_icon', 'Dragon' , 200, 2, 'Dragon', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Dragon_icon', 'Dragon' , 800, 4, 'Dragon', 75, 400, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     }
                 }
             },
             callbackScope:this,
             loop: true
         });
+
+        // summon satan on level 7
+        if (this.game.settings.coins == 666) {
+            this.demons.push(new Demon(this, 'Satan_icon', 'Satan' , 4000, 4, 'Satan', 75, 200, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
+        }
 
         // collision between troop and base
         this.physics.add.collider(this.demons, this.angelBase, (demon, base)=> {
@@ -365,6 +388,7 @@ class Battle extends Phaser.Scene {
             this.gameOver = true;
             lastWin = false;
         } else if (!this.gameOver && this.demonBase.hp.value == 0) { // win
+            tutorial = 4
             this.gameOver = true;
             this.add.image(game.config.width/2 ,game.config.height/2, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             lastWin = true
@@ -381,6 +405,7 @@ class Battle extends Phaser.Scene {
                 this.demons[i].body.setVelocity(0,0)
             }
             if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+                this.sound.play('move_sfx')
                 this.scene.start('mapScene')
             }
         }

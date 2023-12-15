@@ -81,6 +81,7 @@ class Load extends Phaser.Scene {
         this.load.audio('out_sfx', 'click_out.wav')
         this.load.audio('err_sfx', 'click_err.wav')
         this.load.audio('select_sfx', 'select.wav')
+        this.load.audio('lvlup_sfx', 'lvlup.wav')
     }
 
     create() {

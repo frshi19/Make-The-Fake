@@ -56,7 +56,7 @@ class Map extends Phaser.Scene {
                 left: 12,
                 right: 9
             },
-            // fixedWidth: 200
+            fixedWidth: 192
         }
         if (coins < 10) {
             this.resources = this.add.text(768, 696, '000' + coins, coinConfig).setScrollFactor(0)
@@ -102,6 +102,18 @@ class Map extends Phaser.Scene {
         } else if (tutorial == 2) { 
             tutorial = 3
             this.tutorialText = this.add.text(720, 204, 'Use WASD to move the avatar and navigate to battles\n\nPress SPACE to enter a battle\n\nNOTE: Press ESC to exit at any time', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
+        } else if (tutorial == 4) { 
+            tutorial = 5
+            this.time.addEvent({
+                delay: 2600, 
+                callback: () => {
+                    this.tutorialText = this.add.text(720, 204, 'Congratualtions! Press Tab to view your new Minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
+                },
+                callbackScope:this,
+                loop: false
+            })
+        } else if (tutorial == 5) { 
+            this.tutorialText = this.add.text(720, 204, 'Head on to the next battle\nPress T to disable future Tutorials', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(6)
         }
 
         // set up keyboard input
@@ -112,6 +124,7 @@ class Map extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
         keyTAB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
+        keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T)
 
         // collisions        
         const objects = map.createFromObjects('Spawns', {
@@ -144,7 +157,7 @@ class Map extends Phaser.Scene {
                 if (object.name == 1 && level == 1) { // level 1
                     game.settings = {
                         spawnRate: 5000,
-                        enemies: ['Pyromancer'],
+                        enemies: ['Warrior', 'Pyromancer'],
                         exp: 9,
                         coins: 200
                     }
@@ -154,49 +167,49 @@ class Map extends Phaser.Scene {
                 else if (object.name == 2 && level == 10) { // level 2
                     game.settings = {
                         spawnRate: 5000,
-                        enemies: ['Warrior', 'Pyromancer'],
-                        exp: 10,
-                        coins: 300
-                    }
-                    lastBattle = '2'
-                    this.scene.start('battleScene')
-                }
-                else if (object.name == 3 && level == 20) { // level 3
-                    game.settings = {
-                        spawnRate: 4000,
-                        enemies: ['Warrior', 'Pyromancer'],
+                        enemies: ['Warrior', 'Pyromancer', 'BK'],
                         exp: 10,
                         coins: 400
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 4 && level == 30) { // level 4
+                else if (object.name == 3 && level == 20) { // level 3
                     game.settings = {
-                        spawnRate: 4000,
-                        enemies: ['Warrior', 'Pyromancer'],
-                        exp: 10,
-                        coins: 500
-                    }
-                    lastBattle = '2'
-                    this.scene.start('battleScene')
-                }
-                else if (object.name == 5 && level == 40) { // level 5
-                    game.settings = {
-                        spawnRate: 4000,
-                        enemies: ['Warrior', 'Pyromancer'],
+                        spawnRate: 4800,
+                        enemies: ['Warrior', 'Pyromancer', 'Soulripper'],
                         exp: 10,
                         coins: 600
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
+                else if (object.name == 4 && level == 30) { // level 4
+                    game.settings = {
+                        spawnRate: 4600,
+                        enemies: ['Warrior', 'Pyromancer', 'Soulripper', 'Hound'],
+                        exp: 10,
+                        coins: 800
+                    }
+                    lastBattle = '2'
+                    this.scene.start('battleScene')
+                }
+                else if (object.name == 5 && level == 40) { // level 5
+                    game.settings = {
+                        spawnRate: 4400,
+                        enemies: ['Warrior', 'BK', 'Hound', 'Speardemon'],
+                        exp: 10,
+                        coins: 1000
+                    }
+                    lastBattle = '2'
+                    this.scene.start('battleScene')
+                }
                 else if (object.name == 6 && level == 50) { // level 6
                     game.settings = {
-                        spawnRate: 4000,
-                        enemies: ['Warrior', 'Pyromancer'],
+                        spawnRate: 4200,
+                        enemies: ['Warrior', 'Pyromancer', 'Dragon'],
                         exp: 10,
-                        coins: 700
+                        coins: 1200
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
@@ -204,9 +217,9 @@ class Map extends Phaser.Scene {
                 else if (object.name == 7 && level == 60) { // level 7
                     game.settings = {
                         spawnRate: 4000,
-                        enemies: ['Warrior', 'Pyromancer'],
+                        enemies: ['Warrior', 'Pyromancer', 'Dragon', 'Speardemon', 'BK', 'Soulripper', 'Hound'],
                         exp: 0,
-                        coins: 800
+                        coins: 666
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
@@ -214,9 +227,104 @@ class Map extends Phaser.Scene {
             }
         })
 
+
+        // level up
+        let levelUpConfig = {
+            fontFamily: 'Seagram',
+            fontSize: '160px',
+            color: '#FFFF00',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+                left: 5,
+                right: 5
+            },
+        }
+        this.levelUpText = this.add.text(game.config.width/2, game.config.height/2, "LEVEL " + level + '!', levelUpConfig).setScrollFactor(0).setDepth(10).setOrigin(0.5).setAlpha(0)
+
+        if (lastWin) {
+            this.sound.play('lvlup_sfx')
+            let levelUpTween = this.tweens.chain ({
+                targets: this.levelUpText,
+                tweens: [
+                    {
+                        scaleX: 0.1,
+                        scaleY: 0.1,
+                        alpha: 100,
+                        duration: 0
+                    },
+                    {
+                        scaleX: 1,
+                        scaleY: 1,
+                        ease: 'Linear',
+                        duration: 500
+                    },
+                    {
+                        scaleX:1,
+                        scaleY:1,
+                        duration: 200
+                    },
+                    {
+                        alpha: 0,
+                        duration: 0
+                    },
+                    {
+                        alpha: 0,
+                        duration: 200
+                    },
+                    {
+                        alpha: 100,
+                        duration: 0
+                    },
+                    {
+                        alpha: 100,
+                        duration: 200
+                    },
+                    {
+                        alpha: 0,
+                        duration: 0
+                    },
+                    {
+                        alpha: 0,
+                        duration: 200
+                    },
+                    {
+                        alpha: 100,
+                        duration: 0
+                    },
+                    {
+                        alpha: 100,
+                        duration: 200
+                    },
+                    {
+                        alpha: 0,
+                        duration: 0
+                    },
+                    {
+                        alpha: 0,
+                        duration: 200
+                    },
+                    {
+                        alpha: 100,
+                        duration: 0
+                    },
+                    {
+                        alpha: 100,
+                        duration: 200
+                    },
+                    {
+                        alpha: 0,
+                        duration: 0
+                    },
+                ]
+            })
+        }
+        lastWin = false
+
         // camera ignores
         this.cameras.main.ignore([this.frame, objects])
-        this.miniMapCamera.ignore([ bgLayer, this.overlay, this.resources, ignoreArray, this.tutorialText, this.tutorialArrow, this.player])
+        this.miniMapCamera.ignore([ bgLayer, this.overlay, this.resources, ignoreArray, this.tutorialText, this.tutorialArrow, this.player, this.levelUpText])
     }
 
     update() {
@@ -265,6 +373,12 @@ class Map extends Phaser.Scene {
             playerPosY = this.player.y
             this.sound.play('move_sfx')
             this.scene.start('menuScene')
+        }
+
+        // disable tutorial
+        if (Phaser.Input.Keyboard.JustDown(keyT)) {
+            this.sound.play('move_sfx')
+            tutorial = -1
         }
     }
 }
