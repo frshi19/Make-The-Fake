@@ -282,7 +282,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 60 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 50 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Archangel')
                         this.updateRoster()
