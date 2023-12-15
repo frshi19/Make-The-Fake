@@ -40,7 +40,7 @@ class Map extends Phaser.Scene {
         // set up roster icons
         const ignoreArray = []
         for (let i = 0; i < roster.length; i++) {
-            ignoreArray.push(this.add.image(168 + (i * 120), 696, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0))
+            ignoreArray.push(this.add.image(168 + (i * 120), 696, roster[i] + '_icon').setOrigin(0,0).setScrollFactor(0).setDepth(6))
         }
 
         // set up coin counter
@@ -68,6 +68,7 @@ class Map extends Phaser.Scene {
         }else{
             this.resources = this.add.text(768, 696, coins, coinConfig).setScrollFactor(0)
         }
+        this.resources.setDepth(7)
 
         // set up mini map
         this.miniMapCamera = this.cameras.add(1008, 528, 264, 264).setBounds(0, 0, map.widthInPixels, map.heightInPixels).setZoom(0.1095)
@@ -118,9 +119,12 @@ class Map extends Phaser.Scene {
         })
 
         const scene = this
-        // minimap objects for the nodes
+        // objects for the nodes
         objects.forEach(function (object) {
             object.setTexture('red_dot')
+            if (object.name == '7') {
+                object.setAlpha(0)
+            }
             ignoreArray.push(scene.add.image(object.x, object.y, 'dark_seal').setDepth(1))
             wonBattles.forEach(function(battle) {
                 if (object.name == battle) {
@@ -137,72 +141,72 @@ class Map extends Phaser.Scene {
                 playerPosX = this.player.x
                 playerPosY = this.player.y
                 this.sound.play('select_sfx')
-                if (object.name == 1) { // level 1
+                if (object.name == 1 && level == 1) { // level 1
                     game.settings = {
                         spawnRate: 5000,
                         enemies: ['Pyromancer'],
-                        exp: 10,
+                        exp: 9,
                         coins: 200
                     }
                     lastBattle = '1'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 2) { // level 2
+                else if (object.name == 2 && level == 10) { // level 2
                     game.settings = {
-                        spawnRate: 4000,
+                        spawnRate: 5000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 10,
-                        coins: 200
+                        coins: 300
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 3) { // level 3
+                else if (object.name == 3 && level == 20) { // level 3
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 10,
-                        coins: 200
+                        coins: 400
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 4) { // level 4
+                else if (object.name == 4 && level == 30) { // level 4
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 10,
-                        coins: 200
+                        coins: 500
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 5) { // level 5
+                else if (object.name == 5 && level == 40) { // level 5
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 10,
-                        coins: 200
+                        coins: 600
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 6) { // level 6
+                else if (object.name == 6 && level == 50) { // level 6
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
                         exp: 10,
-                        coins: 200
+                        coins: 700
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')
                 }
-                else if (object.name == 7) { // level 7
+                else if (object.name == 7 && level == 60) { // level 7
                     game.settings = {
                         spawnRate: 4000,
                         enemies: ['Warrior', 'Pyromancer'],
-                        exp: 10,
-                        coins: 200
+                        exp: 0,
+                        coins: 800
                     }
                     lastBattle = '2'
                     this.scene.start('battleScene')

@@ -8,7 +8,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     width: 1440,
@@ -28,7 +28,7 @@ let keySPACE, keyW, keyA, keyS, keyD, keyQ, keyE, keyESC, keyTAB
 let tutorial = 0
 
 let coins = 500
-let level = 0
+let level = 1
 
 let playerPosX = 480
 let playerPosY = 1920
@@ -39,3 +39,12 @@ let MAXROSTERSIZE = 5
 let lastBattle = "2"
 let lastWin = false
 let wonBattles = []
+
+let warriorDisc = false
+let pyroDisc = false
+let bkDisc = false
+let srDisc = false
+let speardemonDisc = false
+let houndDisc = false
+let dragonDisc = false
+let satanDisc = false

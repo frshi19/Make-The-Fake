@@ -19,6 +19,8 @@ class Load extends Phaser.Scene {
         this.load.image('red_arrow', 'red_arrow.png')
         this.load.image('dark_seal', 'dark_seal.png')
         this.load.image('light_seal', 'light_seal.png')
+        this.load.image('lock', 'lock.png')
+        this.load.image('what', 'question_mark.png')
 
         // load battle images
         this.load.image('angelBaseImg', 'angelBaseImg.png')
@@ -40,7 +42,12 @@ class Load extends Phaser.Scene {
         // load demon icons
         this.load.image('Warrior_icon', 'warrior_icon.png')
         this.load.image('Pyromancer_icon', 'pyro_icon.png')
+        this.load.image('Soulripper_icon', 'soul_ripper.png')
+        this.load.image('BK_icon', 'bk_icon.png')
+        this.load.image('Speardemon_icon', 'Speardemon_icon.png')
         this.load.image('Hound_icon', 'hound_icon.png')
+        this.load.image('Dragon_icon', 'dragon_icon.png')
+        this.load.image('Satan_icon', 'satan_icon.png')
 
         // load angel info
         this.load.image('Swordsman_info', 'swordsman_info.png')
@@ -50,7 +57,18 @@ class Load extends Phaser.Scene {
         this.load.image('Spearman_info', 'spear_info.png')
         this.load.image('Cavalry_info', 'cavalry_info.png')
         this.load.image('Archangel_info', 'archangel_info.png')
-        this.load.image('God_info', 'God_info.png')
+        this.load.image('lock_info', 'God_info.png')
+
+        // load demon info
+        this.load.image('undisc_info', 'undisc_info.png')
+        this.load.image('Warrior_info', 'warrior_info.png')
+        this.load.image('Pyromancer_info', 'pyro_info.png')
+        this.load.image('BK_info', 'bk_info.png')
+        this.load.image('Soulripper_info', 'soulripper_info.png')
+        this.load.image('Speardemon_info', 'spearman_info.png')
+        this.load.image('Hound_info', 'hound_info.png')
+        this.load.image('Dragon_info', 'dragon_info.png')
+        this.load.image('Satan_info', 'satan_info.png')
 
         // load tileset and info
         this.load.image('tilesetImage', 'tileset.png')

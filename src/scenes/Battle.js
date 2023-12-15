@@ -9,6 +9,25 @@ class Battle extends Phaser.Scene {
             coins = 500;
         }
 
+        // discover demons in this level
+        for (let i = 0; i < this.game.settings.enemies.length; i++) {
+            if (this.game.settings.enemies[i] == 'Warrior') {
+                warriorDisc = true
+            } else if (this.game.settings.enemies[i] == 'Pyromancer') {
+                pyroDisc = true
+            } else if (this.game.settings.enemies[i] == 'BK') {
+                bkDisc = true
+            } else if (this.game.settings.enemies[i] == 'Soulripper') {
+                srDisc = true
+            } else if (this.game.settings.enemies[i] == 'Speardemon') {
+                speardemonDisc = true
+            } else if (this.game.settings.enemies[i] == 'Hound') {
+                houndDisc = true
+            } else if (this.game.settings.enemies[i] == 'Dragon') {
+                dragonDisc = true
+            }
+        }
+
         // create game over flag
         this.gameOver = false;
 
@@ -47,13 +66,17 @@ class Battle extends Phaser.Scene {
         }
         if (tutorial == 3) {
             tutorial = 4
-            let tutText1 = this.add.text(960, 208, 'Use A and D to scroll the viewport', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
-            let tutText2 =this.add.text(960, 336, 'Use SPACE to summon the selected minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+            let tutText1 = this.add.text(1440, 250, 'Use A and D to scroll the viewport', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+            let tutText2 = this.add.text(1440, 400, 'Use W and S to switch lanes', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+            let tutText3 = this.add.text(1440, 550, 'Use SPACE to summon the selected minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75)
+
+
             this.time.addEvent({
-                delay: 5000, 
+                delay: 20000, 
                 callback: () => {
                     tutText1.setAlpha(0)
                     tutText2.setAlpha(0)
+                    tutText3.setAlpha(0)
                 },
                 callbackScope:this,
                 loop: false
@@ -143,7 +166,7 @@ class Battle extends Phaser.Scene {
         this.demonBase.hp = new HealthBar(this, this.demonBaseSpawn.x - 128, this.demonBaseSpawn.y - 212, 1000, 256);
 
         // create pointer to lanes
-        this.pointer = this.add.image(this.angelBase.x, this.angelBase.y, 'pointer')
+        this.pointer = this.add.image(this.angelBase.x - 120, this.angelBase.y, 'pointer').setScrollFactor(0).setDepth(6)
 
         // prepare arrays for each army
         this.angels = []
@@ -238,11 +261,22 @@ class Battle extends Phaser.Scene {
             callback: () => {
                 if(!this.gameOver) {
                     let k = Phaser.Math.Between(0, game.settings.enemies.length-1)
-                    console.log()
+                    let n = Phaser.Math.Between(0, 2)
+                    
                     if (this.game.settings.enemies[k] == 'Warrior') {
-                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Warrior_icon', 'Warrior' , 600, 2, 'Warrior', 150, 120, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
                     } else if (this.game.settings.enemies[k] == 'Pyromancer') {
-                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100, this.demonBase.x, 480))
+                        this.demons.push(new Demon(this, 'Pyromancer_icon', 'Pyromancer' , 200, 2, 'Pyromancer', 150, 100, this.demonBase.x, this.demonBase.y - 160 + (160 * n)))
+                    } else if (this.game.settings.enemies[k] == 'BK') {
+                        this.demons.push(new Demon(this, 'BK_icon', 'BK' , 200, 2, 'BK', 150, 100, this.demonBase.x, 480))
+                    } else if (this.game.settings.enemies[k] == 'Soulripper') {
+                        this.demons.push(new Demon(this, 'Soulripper_icon', 'Soulripper' , 200, 2, 'Soulripper', 150, 100, this.demonBase.x, 480))
+                    } else if (this.game.settings.enemies[k] == 'Speardemon') {
+                        this.demons.push(new Demon(this, 'Speardemon_icon', 'Speardemon' , 200, 2, 'Speardemon', 150, 100, this.demonBase.x, 480))
+                    } else if (this.game.settings.enemies[k] == 'Hound') {
+                        this.demons.push(new Demon(this, 'Hound_icon', 'Hound' , 200, 2, 'Hound', 150, 100, this.demonBase.x, 480))
+                    } else if (this.game.settings.enemies[k] == 'Dragon') {
+                        this.demons.push(new Demon(this, 'Dragon_icon', 'Dragon' , 200, 2, 'Dragon', 150, 100, this.demonBase.x, 480))
                     }
                 }
             },
@@ -335,6 +369,7 @@ class Battle extends Phaser.Scene {
             this.add.image(game.config.width/2 ,game.config.height/2, 'victory').setOrigin(0.5).setScrollFactor(0).setScale(0.5)
             lastWin = true
             coins += this.game.settings.coins
+            level += this.game.settings.exp
         } 
 
         // game over interactions

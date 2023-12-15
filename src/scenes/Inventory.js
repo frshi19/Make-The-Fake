@@ -32,56 +32,135 @@ class Inventory extends Phaser.Scene {
 
         this.shield = this.physics.add.image(624, 168, 'Shieldbearer_icon').setOrigin(0,0)
         this.shield.name = 'Shieldbearer'
+        if (level < 20) {
+            this.shield.setTexture('lock')
+            this.shield.name = 'lock'
+        }
         troops.push(this.shield)
 
         this.axe = this.physics.add.image(504, 168, 'Axeman_icon').setOrigin(0,0)
         this.axe.name = 'Axeman'
+        if (level < 10) {
+            this.axe.setTexture('lock')
+            this.axe.name = 'lock'
+        }
         troops.push(this.axe)
 
         this.spearman = this.physics.add.image(264, 288, 'Spearman_icon').setOrigin(0,0)
         this.spearman.name = 'Spearman'
+        if (level < 30) {
+            this.spearman.setTexture('lock')
+            this.spearman.name = 'lock'
+        }
         troops.push(this.spearman)
 
         this.cavalry = this.physics.add.image(384, 288, 'Cavalry_icon').setOrigin(0,0)
         this.cavalry.name = 'Cavalry'
+        if (level < 40) {
+            this.cavalry.setTexture('lock')
+            this.cavalry.name = 'lock'
+        }
         troops.push(this.cavalry)
 
         
         this.archangel = this.physics.add.image(504, 288, 'Archangel_icon').setOrigin(0,0)
         this.archangel.name = 'Archangel'
+        if (level < 50) {
+            this.archangel.setTexture('lock')
+            this.archangel.name = 'lock'
+        }
         troops.push(this.archangel)
 
         this.god = this.physics.add.image(624, 288, 'God_icon').setOrigin(0,0)
         this.god.name = 'God'
+        if (level < 9999) {
+            this.god.setTexture('lock')
+            this.god.name = 'lock'
+        }
         troops.push(this.god)
-        
-        this.mystery = this.physics.add.image(624, 288, 'God_icon').setOrigin(0,0)
 
         // demon icons
         this.warrior = this.physics.add.image(744, 168, 'Warrior_icon').setOrigin(0,0)
+        this.warrior.name = 'Warrior'
+        if (!warriorDisc) {
+            this.warrior.setTexture('what')
+            this.warrior.name = 'undisc'
+        }
+        troops.push(this.warrior)
+
         this.pyromancer = this.physics.add.image(864, 168, 'Pyromancer_icon').setOrigin(0,0)
-        this.hound = this.physics.add.image(984, 168, 'Hound_icon').setOrigin(0,0)
-        this.knight = this.physics.add.image(744, 288, 'BK_icon').setOrigin(0,0)
-        this.spearman = this.physics.add.image(864, 288, 'Speardemon_icon').setOrigin(0,0)
-        this.soulripper = this.physics.add.image(984, 288, 'Soulripper_icon').setOrigin(0,0)
-        this.dragon = this.physics.add.image(864, 408, 'BD_icon').setOrigin(0,0)
-        this.satan = this.physics.add.image(984, 408, 'Satan_icon').setOrigin(0,0)
+        this.pyromancer.name = 'Pyromancer'
+        if (!pyroDisc) {
+            this.pyromancer.setTexture('what')
+            this.pyromancer.name = 'undisc'
+        }
+        troops.push(this.pyromancer)
+
+        this.hound = this.physics.add.image(864, 288, 'Hound_icon').setOrigin(0,0)
+        this.hound.name = 'Hound'
+        if (!houndDisc) {
+            this.hound.setTexture('what')
+            this.hound.name = 'undisc'
+        }
+        troops.push(this.hound)
+
+        this.knight = this.physics.add.image(1104, 168, 'BK_icon').setOrigin(0,0)
+        this.knight.name = 'BK'
+        if (!bkDisc) {
+            this.knight.setTexture('what')
+            this.knight.name = 'undisc'
+        }
+        troops.push(this.knight)
+
+        this.spearman = this.physics.add.image(744, 288, 'Speardemon_icon').setOrigin(0,0)
+        this.spearman.name = 'Speardemon'
+        if (!speardemonDisc) {
+            this.spearman.setTexture('what')
+            this.spearman.name = 'undisc'
+        }
+        troops.push(this.spearman)
+
+        this.soulripper = this.physics.add.image(984, 168, 'Soulripper_icon').setOrigin(0,0)
+        this.soulripper.name = 'Soulripper'
+        if (!srDisc) {
+            this.soulripper.setTexture('what')
+            this.soulripper.name = 'undisc'
+        }
+        troops.push(this.soulripper)
+
+        this.dragon = this.physics.add.image(984, 288, 'Dragon_icon').setOrigin(0,0)
+        this.dragon.name = 'Dragon'
+        if (!dragonDisc) {
+            this.dragon.setTexture('what')
+            this.dragon.name = 'undisc'
+        }
+        troops.push(this.dragon)
+
+        this.satan = this.physics.add.image(1104, 288, 'Satan_icon').setOrigin(0,0)
+        this.satan.name = 'Satan'
+        if (!satanDisc) {
+            this.satan.setTexture('what')
+            this.satan.name = 'undisc'
+        }
+        troops.push(this.satan)
 
         // create level display
         let lvlConfig = {
             fontFamily: 'Seagram',
-            fontSize: '72px',
-            backgroundColor: '#000000',
-            color: '#3fAAA1',
+            fontSize: '50px',
+            backgroundColor: '#090a14',
+            color: '#FFFFFF',
             align: 'center',
             padding: {
                 top: 6,
-                bottom: 7,
-                left: 12,
+                bottom: 3,
+                left: 3,
                 right: 9
             },
+            fixedWidth: 264,
+            fixedHeight: 72,
         }
-        //this.level = this.add.text(768, 696, '000' + coins, coinConfig).setScrollFactor(0)
+        this.leveltxt = this.add.text(840, 528, 'LEVEL ' + level, lvlConfig).setScrollFactor(0)
 
         // create player cursor object
         this.cursor = this.physics.add.image(this.sword.x - 2, this.sword.y - 2, 'cursor').setOrigin(0,0)
@@ -89,7 +168,7 @@ class Inventory extends Phaser.Scene {
         // create tutorial text
         let tutorialConfig = {
             fontFamily: 'Seagram',
-            fontSize: '32px',
+            fontSize: '48px',
             backgroundColor: '#000000',
             color: '#AAFFFF',
             align: 'center',
@@ -103,7 +182,8 @@ class Inventory extends Phaser.Scene {
         if (tutorial == 1) {
             tutorial = 2
             this.tutorialText = this.add.text(480, 64, 'Use WASD to move your cursor around\nPress SPACE to select or deselect a minion', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
-            this.add.text(1140, 564, 'Press TAB again to exit', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
+            this.add.text(480, 152, 'Select the Archer!', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0).setDepth(10)
+            this.add.text(520, 640, 'Press TAB again to exit', tutorialConfig).setOrigin(0.5).setAlpha(0.75).setScrollFactor(0)
         }
 
         // keyboard defs
@@ -152,7 +232,7 @@ class Inventory extends Phaser.Scene {
                     }
                 } 
                 else if (troop.name == 'Shieldbearer'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 20 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Shieldbearer')
                         this.updateRoster()
@@ -166,7 +246,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Axeman'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 10 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Axeman')
                         this.updateRoster()
@@ -180,7 +260,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Spearman'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 30 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Spearman')
                         this.updateRoster()
@@ -194,7 +274,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Cavalry'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 40 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Cavalry')
                         this.updateRoster()
@@ -208,7 +288,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'Archangel'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 1 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 60 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('Archangel')
                         this.updateRoster()
@@ -222,7 +302,7 @@ class Inventory extends Phaser.Scene {
                     }
                 }
                 else if (troop.name == 'God'){ 
-                    if (roster.length < MAXROSTERSIZE && level >= 60 && !this.checkDuplicates(troop)) {
+                    if (roster.length < MAXROSTERSIZE && level >= 9999 && !this.checkDuplicates(troop)) {
                         this.sound.play('in_sfx')
                         roster.push('God')
                         this.updateRoster()
@@ -268,7 +348,7 @@ class Inventory extends Phaser.Scene {
             this.cursor.y += 120
             this.infoFlag = true
         }
-        if (Phaser.Input.Keyboard.JustDown(keyD) && this.cursor.x != 624 - 2) {
+        if (Phaser.Input.Keyboard.JustDown(keyD) && this.cursor.x != 1104 - 2) {
             this.cursor.x += 120
             this.infoFlag = true
         }
